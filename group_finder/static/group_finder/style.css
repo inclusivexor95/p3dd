@@ -124,3 +124,7 @@ div.formContainer {
     height: 20vh;
     margin-top: 4%;
 }
+
+#hostedGameList {
+    margin-top: 3%;
+}

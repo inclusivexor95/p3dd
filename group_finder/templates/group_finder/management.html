@@ -28,6 +28,16 @@
     </nav>
     <div class="wrapper">
         <div>
+            <h2>Create a New Game</h2>
+            <form action="POST">
+                <label for="gameName">Game Name: </label>
+                <input type="text" id="gameName">
+                <label for="campaignName">Campaign Name: </label>
+                <input type="text" id="campaignName">
+                <input type="submit" value="Create Game">
+            </form>
+        </div>
+        <div id="hostedGameList">
             <h2>This is the DM page for creating/editing games</h2>
             {% for game in hosted_game_list %}
 
