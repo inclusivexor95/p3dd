@@ -1,0 +1,125 @@
+html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button:-moz-focusring,[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}
+
+.clearfix:after {visibility: hidden; display: block; font-size: 0; content: ''; clear: both; height: 0; }
+
+html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+    min-height: 100vh;
+    font-size: 62.5%;
+    background-image: url(./assets/stoneBakcground.jpg);
+    background-size: cover;
+}
+
+*, *:before, *:after {box-sizing: inherit}
+
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
+
+
+@font-face {
+    font-family: Tiamat Light;
+    src: url(./assets/fonts/tiamat.otf);
+}
+
+@font-face {
+    font-family: Tiamat Regular;
+    src: url(./assets/fonts/tiamatregular.otf);
+}
+
+@font-face {
+    font-family: Tiamat Alt;
+    src: url(./assets/fonts/tiamatmedium.otf);
+}
+
+body {
+    min-height: 100vh;
+    /* position: relative; */
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 85%;
+    min-height: 88vh;
+    max-width: 1300px;
+    background-image: url(./assets/scrollBackground.jpg);
+    border-left: 0.2rem solid black;
+    border-right: 0.2rem solid black;
+    padding: 4vh;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+    background-image: url(./assets/leatherBackground2.jpg);
+    border-bottom: 0.2rem solid black;
+    height: 12vh;
+    text-shadow: 2px 2px #000;
+}
+
+h1 {
+    font-size: calc(3rem + 1.5vw);
+    margin: 0;
+    font-family: Tiamat Regular;
+    color: white;
+}
+
+h2 {
+    font-size: calc(2rem + 1vw);
+    font-family: Tiamat Regular;
+    margin: 0 0 2vh 0;
+}
+
+
+p, a, label {
+    font-size: calc(1.5rem + 0.5vw);
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: auto;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+}
+
+nav a:hover, nav a:hover h1 {
+    color: lightgrey;
+}
+
+.wrapper > div {
+    background-color: peru;
+    border: 0.1rem solid black;
+    padding: 5% 5% 4% 5%;
+}
+
+div#gameList {
+    margin-top: 4vh;
+}
+
+div.formContainer {
+    padding: 2%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#gameList ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+}
+
+#gameList ul li {
+    width: 45%;
+    background-color: blanchedalmond;
+    height: 20vh;
+}
