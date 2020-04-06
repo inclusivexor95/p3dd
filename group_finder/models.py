@@ -18,7 +18,7 @@ class Game(models.Model):
     campaign_text = models.CharField(max_length=200)
     participants = models.ManyToManyField(Account)
     creation_date = models.DateTimeField(('date created'), default=timezone.now)
-    # creation_date = timezone.now
+    host_id = models.IntegerField()
     def __str__(self):
         return self.game_text
 

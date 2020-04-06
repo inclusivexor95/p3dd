@@ -67,8 +67,6 @@ class AccountView(generic.ListView):
         context["last_name"] = user_object.last_name
         context["date_joined"] = user_object.date_joined
 
-
-        
         return context
 
 def login(request):
@@ -86,4 +84,4 @@ class ManagementView(generic.ListView):
         Return your last five created games.
         """
         # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
-        return Game.objects.all().order_by('-creation_date')[:5]
+        return Account.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]

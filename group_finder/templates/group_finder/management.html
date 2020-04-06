@@ -29,6 +29,11 @@
     <div class="wrapper">
         <div>
             <h2>This is the DM page for creating/editing games</h2>
+            {% for game in hosted_game_list %}
+
+            <p>{{ game }}</p>
+
+            {% endfor %}
         </div>
     </div>
 </body>
