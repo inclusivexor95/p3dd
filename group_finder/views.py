@@ -86,7 +86,7 @@ class ManagementView(generic.ListView):
         # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
         return Account.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
 
-class DetailView(generic.DetailView):
+class EditView(generic.DetailView):
     model = Game
     template_name = 'group_finder/edit.html'
     
