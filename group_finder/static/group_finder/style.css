@@ -128,3 +128,10 @@ div.formContainer {
 #hostedGameList {
     margin-top: 3%;
 }
+
+div.gameContainer {
+    width: 100%;
+    background-color: blanchedalmond;
+    height: 20vh;
+    margin-top: 3%;
+}

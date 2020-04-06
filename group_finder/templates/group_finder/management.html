@@ -41,8 +41,12 @@
             <h2>This is the DM page for creating/editing games</h2>
             {% for game in hosted_game_list %}
 
-            <p>{{ game }}</p>
-
+            <!-- <p>{{ game }}</p> -->
+            <div class="gameContainer">
+                <a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a>
+                <a href="{% url 'group_finder:edit' game.id %}">Edit Game</a>
+            </div>
+                
             {% endfor %}
         </div>
     </div>

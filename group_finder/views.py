@@ -85,3 +85,21 @@ class ManagementView(generic.ListView):
         """
         # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
         return Account.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
+
+class DetailView(generic.DetailView):
+    model = Game
+    template_name = 'group_finder/edit.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        current_participants = self.object.participants
+        participant_names = []
+        for participant in current_participants.all():
+            participant_names.append(participant)
+        context["participant_names"] = participant_names
+        num_players = len(participant_names) - 1
+        context["num_players"] = num_players
+        context["last_participant"] = participant_names[num_players]
+
+        return context

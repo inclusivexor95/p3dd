@@ -11,4 +11,5 @@ urlpatterns = [
     path('account/', views.AccountView.as_view(), name='account'),
     path('about/', views.about, name='about'),
     path('management/', views.ManagementView.as_view(), name='management'),
+    path('edit/', views.ManagementView.as_view(), name='edit')
 ]
