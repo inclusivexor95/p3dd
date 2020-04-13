@@ -1,65 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
+{% extends 'base.html' %}
+{% block content %}
+    <div id="gameDetail">
+        <h2>{{ object.game_text }}</h2>
+        <div>
+            <form action="">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'group_finder/style.css' %}">
-    <script defer src="{% static 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' %}"></script>
-    <script defer src="{% static 'group_finder/js/main.js' %}"></script>
-</head>
-<body>
-    <nav>
-        <a href=""><h1>P3DD</h1></a>
-        <ul>
-            <li><a href="{% url 'group_finder:index' %}">Home</a></li>
-            <li><a href="{% url 'group_finder:account' %}">Account</a></li>
-            <li><a href="{% url 'group_finder:management' %}">Game Management</a></li>
-            <li><a href="{% url 'group_finder:about' %}">About</a></li>
-        </ul>
-        <!-- if signed in -->
-        <h3>
-            <!-- username here -->
-        </h3>
-        <!-- else -->
-        <h3>
-            <a href="{% url 'group_finder:login' %}">Sign In</a>
-        </h3>
-    </nav>
-    <div class="wrapper">
-        <div id="gameDetail">
-            <h2>{{ object.game_text }}</h2>
-            <div>
-                <form action="">
+                <p>{{ object.campaign_text }}</p>
 
-                    <p>{{ object.campaign_text }}</p>
+                <p>Number of Players: {{ num_players }}</p>
 
-                    <p>Number of Players: {{ num_players }}</p>
+                <p>Current Members:
 
-                    <p>Current Members:
+                {% for participant in participant_names %}
 
-                    {% for participant in participant_names %}
+                {% if participant == last_participant %}
 
-                    {% if participant == last_participant %}
+                {{ participant }}
 
-                    {{ participant }}
+                {% else %}
 
-                    {% else %}
+                {{ participant }},
 
-                    {{ participant }},
+                {% endif %}
+                
+                {% endfor %}
+                
+                </p>
+                
+            </form>
 
-                    {% endif %}
-                    
-                    {% endfor %}
-                    
-                    </p>
-                    
-                </form>
-
-            </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -1,86 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <link rel="stylesheet" href="../../static/group_finder/style.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'group_finder/style.css' %}">
-</head>
-<body>
-    <nav>
-        <a href=""><h1>P3DD</h1></a>
-        <ul>
-            <li><a href="{% url 'group_finder:index' %}">Home</a></li>
-            <li><a href="{% url 'group_finder:account' %}">Account</a></li>
-            <li><a href="{% url 'group_finder:management' %}">Game Management</a></li>
-            <li><a href="{% url 'group_finder:about' %}">About</a></li>
-        </ul>
-        <!-- if signed in -->
-        <h3>
-            <!-- username here -->
-        </h3>
-        <!-- else -->
-        <h3>
-            <a href="{% url 'group_finder:login' %}">Sign In</a>
-        </h3>
-    </nav>
-    <div class="wrapper">
-        <div id="findGame">
-            <h2>Find a Game</h2>
-            <form action="GET">
-                <div class="formContainer">
-                    <div>
-                        <label for="searchGame">Search by Game Name</label>
-                        <input type="text" id="searchGame">
-                    </div>
-                    <div>
-                        <label for="sortBy">Sort By:</label>
-                        <select name="" id="sortBy">
-                            <option value="">Recently Created</option>
-                            <option value="">Game Name</option>
-                            <option value="">Number of Players (descending)</option>
-                            <option value="">Number of Players (ascending)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="formContainer">
-                    <div>
-                        <label for="searchCampaign">Search by Campaign Name</label>
-                        <input type="text" id="searchCampaign">
-                    </div>
-                </div>
-                <div class="formContainer">
-                    <div>
-                        <label for="newPlayers">Only find games that are accepting new players</label>
-                        <input type="checkbox" id="newPlayers">
-                    </div>
-                    <input type="submit">
-                </div>
-                
-                
-            </form>
-        </div>
+{% extends 'base.html' %}
+{% block content %}
 
-        <div id="gameList">
-            <h2>Recent Game Listings</h2>
-            {% if latest_game_list %}
-                <ul>
-                {% for game in latest_game_list %}
-                <li>
-                    <a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a>
-                    <p>Campaign Name: {{ game.campaign_text }}</p>
-                    <p>Number of Players:{{ game.num_players }}</p>
-                </li>
-                <!-- <li><a href="">Game Link Here</a></li> -->
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>No games are available.</p>
-            {% endif %}
-
-        </div>
+    <div id="findGame">
+        <h2>Find a Game</h2>
+        <form action="GET">
+            <div class="formContainer">
+                <div>
+                    <label for="searchGame">Search by Game Name</label>
+                    <input type="text" id="searchGame">
+                </div>
+                <div>
+                    <label for="sortBy">Sort By:</label>
+                    <select name="" id="sortBy">
+                        <option value="">Recently Created</option>
+                        <option value="">Game Name</option>
+                        <option value="">Number of Players (descending)</option>
+                        <option value="">Number of Players (ascending)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="formContainer">
+                <div>
+                    <label for="searchCampaign">Search by Campaign Name</label>
+                    <input type="text" id="searchCampaign">
+                </div>
+            </div>
+            <div class="formContainer">
+                <div>
+                    <label for="newPlayers">Only find games that are accepting new players</label>
+                    <input type="checkbox" id="newPlayers">
+                </div>
+                <input type="submit">
+            </div>
+            
+            
+        </form>
     </div>
-</body>
-</html>
+
+    <div id="gameList">
+        <h2>Recent Game Listings</h2>
+        {% if latest_game_list %}
+            <ul>
+            {% for game in latest_game_list %}
+            <li>
+                <a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a>
+                <p>Campaign Name: {{ game.campaign_text }}</p>
+                <p>Number of Players:{{ game.num_players }}</p>
+            </li>
+            <!-- <li><a href="">Game Link Here</a></li> -->
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No games are available.</p>
+        {% endif %}
+
+    </div>
+    
+{% endblock %}
