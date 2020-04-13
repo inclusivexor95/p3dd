@@ -32,9 +32,9 @@
             <form action="/group_finder/management/new/" method="POST">
                 {% csrf_token %}
                 <label for="gameName">Game Name: </label>
-                <input type="text" id="gameName">
+                <input type="text" id="gameName" name="gameName">
                 <label for="campaignName">Campaign Name: </label>
-                <input type="text" id="campaignName">
+                <input type="text" id="campaignName" name="campaignName">
                 <input type="submit" value="Create Game">
             </form>
         </div>
