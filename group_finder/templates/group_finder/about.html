@@ -1,35 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    
-    <link rel="stylesheet" type="text/css" href="{% static 'group_finder/style.css' %}">
-</head>
-<body>
-    <nav>
-        <a href=""><h1>P3DD</h1></a>
-        <ul>
-            <li><a href="{% url 'group_finder:index' %}">Home</a></li>
-            <li><a href="{% url 'group_finder:account' %}">Account</a></li>
-            <li><a href="{% url 'group_finder:management' %}">Game Management</a></li>
-            <li><a href="{% url 'group_finder:about' %}">About</a></li>
-        </ul>
-        <!-- if signed in -->
-        <h3>
-            <!-- username here -->
-        </h3>
-        <!-- else -->
-        <h3>
-            <a href="{% url 'group_finder:login' %}">Sign In</a>
-        </h3>
-    </nav>
-    <div class="wrapper">
-        <div>
-            <h2>This is a docs page</h2>
-        </div>
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <h2>This is a docs page</h2>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LookingForParty</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'group_finder/style.css' %}">
+</head>
+<body>
+    <nav>
+        <a href=""><h1>LookingForParty</h1></a>
+        <ul>
+            <li><a href="{% url 'group_finder:index' %}">Home</a></li>
+            <li><a href="{% url 'group_finder:account' %}">Account</a></li>
+            <li><a href="{% url 'group_finder:management' %}">Game Management</a></li>
+            <li><a href="{% url 'group_finder:about' %}">About</a></li>
+        </ul>
+        <!-- if signed in -->
+        <h3>
+            <!-- username here -->
+        </h3>
+        <!-- else -->
+        <h3>
+            <a href="{% url 'group_finder:login' %}">Log In</a>
+        </h3>
+    </nav>
+    <div class="wrapper">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer class="page-footer">
+        <div class="right">All Rights Reserved, &copy; 2020 LookingForParty &nbsp;</div>
+    </footer>
+</body>
+</html>
