@@ -1,5 +1,5 @@
 from django.http import HttpRequest, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
@@ -105,6 +105,9 @@ class EditView(generic.DetailView):
         return context
 
 def create(request):
-    game_text = request.POST.get('gameName')
-    campaign_text = request.POST.get('campaignName')
-    game = Account.objects.get(id=1).game_set.create(game_text='')
+    game_data = request.POST.get('gameName')
+    campaign_data = request.POST.get('campaignName')
+    game = Account.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
+    game.save()
+    # return redirect('detail', args=game.id)
+    return redirect(f'/group_finder/{game.id}/')
