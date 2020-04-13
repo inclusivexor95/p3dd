@@ -1,34 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div id="gameDetail">
-        <h2>{{ object.game_text }}</h2>
-        <div>
-            <form action="">
+<div id="gameDetail">
+    <h2>{{ object.game_text }}</h2>
+    <div>
+        <form action="">
+            <p>{{ object.campaign_text }}</p>
 
-                <p>{{ object.campaign_text }}</p>
+            <p>Number of Players: {{ num_players }}</p>
 
-                <p>Number of Players: {{ num_players }}</p>
+            <p>Current Members:
 
-                <p>Current Members:
-
-                {% for participant in participant_names %}
-
+            {% for participant in participant_names %}
                 {% if participant == last_participant %}
-
-                {{ participant }}
-
+                    {{ participant }}
                 {% else %}
-
-                {{ participant }},
-
+                    {{ participant }},
                 {% endif %}
-                
-                {% endfor %}
-                
-                </p>
-                
-            </form>
-
-        </div>
+            {% endfor %}
+            </p>   
+        </form>
     </div>
+</div>
 {% endblock %}
