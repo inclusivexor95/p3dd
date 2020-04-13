@@ -2,6 +2,7 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
+from django.views.generic.edit import CreateView
 from django.utils import timezone
 # from django.template import loader
 from django.db.models import Count
@@ -54,6 +55,7 @@ class AccountView(generic.ListView):
         # RIGHT NOW THIS JUST ASSUMES YOU ARE "ADMIN", MUST BE CHANGED WHEN LOGIN IS IMPLEMENTED
         
         return Account.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
+
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
 
     def get_context_data(self, **kwargs):
@@ -111,3 +113,7 @@ def create(request):
     game.save()
     # return redirect('detail', args=game.id)
     return redirect(f'/group_finder/{game.id}/')
+
+class GameCreate(CreateView):
+    model = Game
+    fields = ['game_text', 'campaign_text']
