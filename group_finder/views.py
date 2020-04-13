@@ -105,4 +105,6 @@ class EditView(generic.DetailView):
         return context
 
 def create(request):
-    print(request.POST)
+    game_text = request.POST.get('gameName')
+    campaign_text = request.POST.get('campaignName')
+    game = Account.objects.get(id=1).game_set.create(game_text='')
