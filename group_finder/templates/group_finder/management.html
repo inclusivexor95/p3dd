@@ -29,7 +29,8 @@
     <div class="wrapper">
         <div>
             <h2>Create a New Game</h2>
-            <form action="POST">
+            <form action="/group_finder/management/new/" method="POST">
+                {% csrf_token %}
                 <label for="gameName">Game Name: </label>
                 <input type="text" id="gameName">
                 <label for="campaignName">Campaign Name: </label>
