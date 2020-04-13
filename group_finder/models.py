@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Account(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.user.username
     def get_account_id(self):
@@ -14,6 +14,7 @@ class Account(models.Model):
 
 
 class Game(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     game_text = models.CharField(max_length=200)
     campaign_text = models.CharField(max_length=200)
     participants = models.ManyToManyField(Account)

@@ -78,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'group_finder',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'hello',
+        'USER': 'postgres',
+        'PASSWORD': 'hello',
     }
 }
 
