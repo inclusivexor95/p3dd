@@ -11,7 +11,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-   
+
 from .models import Account, Game, Character
 from .form import SignUpForm
 
@@ -136,7 +136,7 @@ def signup(request):
             return redirect('/group_finder/')
     else:
         error_message = "Invalid sign up - please try again"
-  # A bad POST or a GET request, so render signup.html with an empty form
+# A bad POST or a GET request, so render signup.html with an empty form
         form = SignUpForm()
         context = {'form': form, 'error_message': error_message}
         return render(request, 'registration/signup.html', context)
