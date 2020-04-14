@@ -111,84 +111,33 @@ class EditView(generic.DetailView):
 
         return context
 
-def create(request):
-    game_data = request.POST.get('gameName')
-    campaign_data = request.POST.get('campaignName')
-    game = User.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
-    game.save()
-    # return redirect('detail', args=game.id)
-    return redirect(f'/group_finder/{game.id}/')
+# def create(request):
+#     game_data = request.POST.get('gameName')
+#     campaign_data = request.POST.get('campaignName')
+#     game = Account.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
+#     game.save()
+#     # return redirect('detail', args=game.id)
+#     return redirect(f'/group_finder/{game.id}/')
 
 class GameCreate(CreateView):
     model = Game
     fields = ['game_text', 'campaign_text']
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 def signup(request):
-    print("WHAT????!!")
     error_message = ''
     if request.method == 'POST':
-    # This is how to create a 'user' form object
-    # that includes the data from the browser
         form = SignUpForm(request.POST)
         if form.is_valid():
-        # This will add the user to the database
             user = form.save()
-            # This is how we log a user in via code
             login(request, user)
             return redirect('/group_finder/')
     else:
         error_message = "Invalid sign up - please try again"
-# A bad POST or a GET request, so render signup.html with an empty form
         form = SignUpForm()
         context = {'form': form, 'error_message': error_message}
         return render(request, 'registration/signup.html', context)
-
-# def signup(request):
-#     error_message = ''
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             first_name = form.cleaned_data.get('display_name')
-#             email = form.cleaned_data['email']
-#             user.save()
-#             # raw_password = form.cleaned_data.get('password1')
-#             # user = authenticate(username=user.username, password=raw_password)
-#             login(request, user)
-#             return redirect('index')
-#     else:
-#         error_message = "Invalid sign up - please try again"
-#         form = SignUpForm()
-#         context = {'form': form, 'error_message': error_message}
-#         return render(request, 'registration/signup.html', context)
-
-# def save(self, commit=True):
-#     user = super(SignUpForm, self).save(commit=False)
-#     user.display_name = display_name
-#     user.email = self.cleaned_data["email"]
-#     if commit:
-#         user.save()
-#     return user
-
-
-# def signup(request):
-#     error_message = ''
-#     if request.method == 'POST':
-#     # This is how to create a 'user' form object
-#     # that includes the data from the browser
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#         # This will add the user to the database
-#             user = form.save()
-#             # This is how we log a user in via code
-#             login(request, user)
-#             return redirect('index')
-#     else:
-#         error_message = "Invalid sign up - please try again"
-#   # A bad POST or a GET request, so render signup.html with an empty form
-#         form = UserCreationForm()
-#         context = {'form': form, 'error_message': error_message}
-#         return render(request, 'registration/signup.html', context)
-
 
 
