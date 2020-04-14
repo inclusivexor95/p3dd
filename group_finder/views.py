@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Account, Game, Character
+from .models import Game, Character
 from .form import SignUpForm
 
 class IndexView(generic.ListView):
