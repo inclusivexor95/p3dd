@@ -28,7 +28,7 @@ class IndexView(generic.ListView):
         return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
     
 def filter_games(request):
-    form = 
+    form = request.POST
 
 class DetailView(generic.DetailView):
     model = Game
