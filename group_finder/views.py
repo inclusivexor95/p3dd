@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Account, Game, Character
+from .models import Game, Character
 from .form import SignUpForm
 
 class IndexView(generic.ListView):
@@ -25,8 +25,10 @@ class IndexView(generic.ListView):
         Return the last five created games.
         """
 
-        return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('participants') - 1))
+        return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
     
+def filter_games(request):
+    form = request.POST
 
 class DetailView(generic.DetailView):
     model = Game
@@ -35,7 +37,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        current_participants = self.object.participants
+        current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
             participant_names.append(participant)
@@ -57,7 +59,7 @@ class AccountView(generic.ListView):
         """
         # RIGHT NOW THIS JUST ASSUMES YOU ARE "ADMIN", MUST BE CHANGED WHEN LOGIN IS IMPLEMENTED
         
-        return Account.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
+        return User.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
 
@@ -89,7 +91,7 @@ class ManagementView(generic.ListView):
         Return your last five created games.
         """
         # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
-        return Account.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
+        return User.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
 
 class EditView(generic.DetailView):
     model = Game
@@ -98,7 +100,7 @@ class EditView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        current_participants = self.object.participants
+        current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
             participant_names.append(participant)
