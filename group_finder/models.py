@@ -14,7 +14,6 @@ from django.contrib.auth.models import User
 
 
 class Game(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
     game_text = models.CharField(max_length=200)
     campaign_text = models.CharField(max_length=200)
