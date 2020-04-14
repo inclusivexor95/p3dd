@@ -14,7 +14,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse, reverse_lazy
 
 from .models import Game, Character
 
@@ -23,6 +22,7 @@ class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
     context_object_name = 'latest_game_list'
     def get_queryset(self):
+
         if self.request.GET:
 
             form = self.request.GET
@@ -152,19 +152,12 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 #     # return redirect('detail', args=game.id)
 #     return redirect(f'/group_finder/{game.id}/')
 
-
 class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
     fields = ['game_text', 'campaign_text','game_type'] 
-    def get_success_url(self):
-    # #THE REVERSE function is not working, but can post the created form successfully
-        return f'group_finder/{id(self.object)}'
     def form_valid(self,form):
-        # form_id = form.get('id')
         form.instance.user = self.request.user   
         form.instance.host_id =self.request.user.id
-        # success_url = f"/group_finder/{self.object.game_id()}"
-
         return super().form_valid(form)
     
 
@@ -197,5 +190,3 @@ def signup(request):
     form = SignUpForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
-
