@@ -24,10 +24,8 @@ class Game(models.Model):
     host_id = models.IntegerField()
     def __str__(self):
         return self.game_text
-    def get_absolute_url(self):
-        return reverse('detail', kwargs={'game_id': self.id})
-
-
+    # def get_absolute_url(self):
+    #     return reverse('detail', kwargs={'game_id': self.id})
 
 class Character(models.Model):
     name_text = models.CharField(max_length=50)
