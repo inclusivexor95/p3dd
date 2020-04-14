@@ -36,6 +36,8 @@ class IndexView(generic.ListView):
             # do this later
             # if form.newPlayers == True:
             # elif form.newPlayers == False:
+            # if form.get('newPlayers', ''):
+            #     games = games.filter(accepting_players__contains)
 
             sort = form.get('sortBy', 'recent')
             
@@ -52,7 +54,7 @@ class IndexView(generic.ListView):
 
         else:
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).annotate(request_data=Count('users')).order_by('-creation_date')
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).order_by('-creation_date')
 
         return games
 
