@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
     
 
     def get_queryset(self):
-        if self.request.POST:
+        if self.request.method == 'POST':
             games = Game.objects.all().annotate(num_players=(Count('users') - 1))
             form = self.request.POST
             if form.searchGame != '':
@@ -41,10 +41,12 @@ class IndexView(generic.ListView):
                 games.order_by('num_players')
             elif form.sortBy == 'numPlayersDescending':
                 games.order_by('-num_players')
+
+            return games
         
 
 
-        else:
+        elif self.request.method == 'GET':
             return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
 
 

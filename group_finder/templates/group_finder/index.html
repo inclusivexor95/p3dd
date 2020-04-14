@@ -3,7 +3,8 @@
 
 <div id="findGame">
     <h2>Find a Game</h2>
-    <form action="GET">
+    <form action="/group_finder/" method="POST">
+        {% csrf_token %}
         <div class="formContainer">
             <div>
                 <label for="searchGame">Search by Game Name</label>
