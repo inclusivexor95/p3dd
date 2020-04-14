@@ -15,7 +15,7 @@
             <li><a href="{% url 'group_finder:about' %}">About</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'group_finder:account' %}">Account</a></li>
-            <li><a href="{% url 'group_finder:game_create' %}">Game Management</a></li>
+            <li><a href="{% url 'group_finder:game_create' %}">Create New Game</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <li><a href="{% url 'group_finder:signup' %}">Sign Up</a></li>
