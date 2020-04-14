@@ -2,7 +2,7 @@
 {% block content %}
 <div id="gameDetail">
     <h2>{{ object.game_text }}</h2>
-    <div>
+    <p>
         <p>{{ object.campaign_text }}</p>
 
         <p>Number of Players: {{ num_players }}</p>
@@ -24,6 +24,19 @@
         {% endfor %}
 
         </p>
+
+        <p>Accepting New Players? 
+            
+            {% if object.accepting_players %}
+
+            Yes</p>
+
+            {% else %}
+
+            No</p>
+
+            {% endif %}
+
     </div>
 
 </div>
