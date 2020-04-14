@@ -25,8 +25,10 @@ class Game(models.Model):
     accepting_players = models.BooleanField(default=True)
     def __str__(self):
         return self.game_text
-    # def get_absolute_url(self):
-    #     return reverse('detail', kwargs={'game_id': self.id})
+    def get_absolute_url(self):
+        return reverse('group_finder:detail', kwargs={'pk': self.pk})
+
+
 
 class Character(models.Model):
     name_text = models.CharField(max_length=50)

@@ -14,6 +14,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse, reverse_lazy
 
 from .models import Game, Character
 
@@ -68,9 +69,12 @@ class DetailView(generic.DetailView):
         for participant in current_participants.all():
             participant_names.append(participant)
         context["participant_names"] = participant_names
-        num_players = len(participant_names)-1
+        num_players = len(participant_names)
         context["num_players"] = num_players
-        context["last_participant"] = participant_names[num_players]
+        if num_players >= 1:
+            context["last_participant"] = participant_names[num_players - 1]
+        elif num_players == 1:
+            context["last_participant"] = participant_names[0]
 
         return context
 
