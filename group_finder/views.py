@@ -16,20 +16,47 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Game, Character
 
+
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
     context_object_name = 'latest_game_list'
     
 
     def get_queryset(self):
-        """
-        Return all games.
-        """
 
-        return Game.objects.all().order_by('-creation_date').annotate(num_players=(Count('users') - 1))
-    
-def filter_games(request):
-    form = request.POST
+        if self.request.GET:
+
+            form = self.request.GET
+
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1))
+
+            if form.get('searchGame', ''):
+                games = games.filter(game_text__icontains=(form.get('searchGame', '')))
+            if form.get('searchCampaign', ''):
+                games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
+
+            # do this later
+            # if form.newPlayers == True:
+            # elif form.newPlayers == False:
+
+            sort = form.get('sortBy', 'recent')
+            
+            if sort == 'recent':
+                games = games.order_by('-creation_date')
+            elif sort == 'name':
+                games = games.order_by('game_text')
+            elif sort == 'numPlayersAscending':
+                games = games.order_by('num_players')
+            elif sort == 'numPlayersDescending':
+                games = games.order_by('-num_players')
+
+            # self.url.split('?', maxsplit=1)[0]
+
+        else:
+
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).annotate(request_data=Count('users')).order_by('-creation_date')
+
+        return games
 
 class DetailView(generic.DetailView):
     model = Game
