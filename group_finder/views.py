@@ -52,7 +52,7 @@ class IndexView(generic.ListView):
 
         else:
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).annotate(request_data=Count('users')).order_by('-creation_date')
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).order_by('-creation_date')
 
         return games
 
