@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils import timezone
 # from django.template import loader
 from django.db.models import Count
+from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.models import User
 from django import forms
@@ -20,8 +21,6 @@ from .models import Game, Character
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
     context_object_name = 'latest_game_list'
-    
-
     def get_queryset(self):
 
         if self.request.GET:
@@ -65,17 +64,20 @@ class DetailView(generic.DetailView):
     template_name = 'group_finder/detail.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
         current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
             participant_names.append(participant)
         context["participant_names"] = participant_names
-        num_players = len(participant_names) - 1
+        num_players = len(participant_names)-1
         context["num_players"] = num_players
         context["last_participant"] = participant_names[num_players]
 
         return context
+
+# def game_detail(request, game_id):
+#     game = Game.objects.get(id=game_id)
+#     return render(request, 'group_finder/detail.html')
 
 class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
@@ -149,9 +151,12 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 
 class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
-    fields = ['game_text', 'campaign_text','game_type']
+    fields = ['game_text', 'campaign_text','game_type'] 
+    def get_success_url(self):
+    #THE REVERSE function is not working, but can post the created form successfully
+        return reverse('detail', kwargs={'pk' : self.object.pk})
     def form_valid(self,form):
-        form.instance.user = self.request.user
+        form.instance.user = self.request.user   
         form.instance.host_id =self.request.user.id
         return super().form_valid(form)
     
