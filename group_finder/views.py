@@ -124,6 +124,7 @@ class GameCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':

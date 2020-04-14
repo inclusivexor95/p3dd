@@ -14,7 +14,7 @@ class Account(models.Model):
 
 
 class Game(models.Model):
-    user = models.ManyToManyField(User)
+    users = models.ManyToManyField(User)
     game_text = models.CharField(max_length=200)
     campaign_text = models.CharField(max_length=200)
     participants = models.ManyToManyField(Account)
