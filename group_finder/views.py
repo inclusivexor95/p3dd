@@ -25,7 +25,7 @@ class IndexView(generic.ListView):
         Return the last five created games.
         """
 
-        return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('participants') - 1))
+        return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
     
 
 class DetailView(generic.DetailView):
@@ -35,7 +35,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        current_participants = self.object.participants
+        current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
             participant_names.append(participant)
@@ -57,7 +57,7 @@ class AccountView(generic.ListView):
         """
         # RIGHT NOW THIS JUST ASSUMES YOU ARE "ADMIN", MUST BE CHANGED WHEN LOGIN IS IMPLEMENTED
         
-        return Account.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
+        return User.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
 
@@ -89,7 +89,7 @@ class ManagementView(generic.ListView):
         Return your last five created games.
         """
         # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
-        return Account.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
+        return User.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
 
 class EditView(generic.DetailView):
     model = Game
@@ -98,7 +98,7 @@ class EditView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        current_participants = self.object.participants
+        current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
             participant_names.append(participant)
@@ -112,7 +112,7 @@ class EditView(generic.DetailView):
 def create(request):
     game_data = request.POST.get('gameName')
     campaign_data = request.POST.get('campaignName')
-    game = Account.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
+    game = User.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
     game.save()
     # return redirect('detail', args=game.id)
     return redirect(f'/group_finder/{game.id}/')
