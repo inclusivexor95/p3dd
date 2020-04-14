@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 
 from .models import Game, Character
+from .forms import CreateGameForm
 
 
 class IndexView(generic.ListView):
@@ -151,17 +152,16 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 #     return redirect(f'/group_finder/{game.id}/')
 
 class GameCreate(LoginRequiredMixin, CreateView):
+    form_class = CreateGameForm
     model = Game
-    fields = ['game_text', 'campaign_text','game_type']
-    
+    # fields = ['game_text', 'campaign_text','game_type']
+
 
     def form_valid(self,form):
-        form.instance.host_id = self.request.user.id
+        self.object.host_id = self.request.user.id
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
         return super().form_valid(form)
-    
-
 
 
 
