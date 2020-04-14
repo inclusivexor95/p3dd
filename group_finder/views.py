@@ -38,6 +38,8 @@ class IndexView(generic.ListView):
             # do this later
             # if form.newPlayers == True:
             # elif form.newPlayers == False:
+            # if form.get('newPlayers', ''):
+            #     games = games.filter(accepting_players__contains)
 
             sort = form.get('sortBy', 'recent')
             
