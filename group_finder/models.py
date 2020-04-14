@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 # class Account(models.Model):
@@ -23,6 +24,9 @@ class Game(models.Model):
     host_id = models.IntegerField()
     def __str__(self):
         return self.game_text
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'game_id': self.id})
+
 
 
 class Character(models.Model):
