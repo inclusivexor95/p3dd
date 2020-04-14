@@ -21,14 +21,32 @@ class IndexView(generic.ListView):
     
 
     def get_queryset(self):
-        """
-        Return the last five created games.
-        """
+        if self.request.POST:
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1))
+            form = self.request.POST
+            if form.searchGame != '':
+                games.filter(game_text__icontains=(form.searchGame))
+            if form.searchCampaign != '':
+                games.filter(campaign_text__icontains=(form.searchCampaign))
 
-        return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
-    
-def filter_games(request):
-    form = request.POST
+            # do this later
+            # if form.newPlayers == True:
+            # elif form.newPlayers == False:
+
+            if form.sortBy == 'recent':
+                games.order_by('-creation_date')
+            elif form.sortBy == 'name':
+                games.order_by('game_text')
+            elif form.sortBy == 'numPlayersAscending':
+                games.order_by('num_players')
+            elif form.sortBy == 'numPlayersDescending':
+                games.order_by('-num_players')
+        
+
+
+        else:
+            return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
+
 
 class DetailView(generic.DetailView):
     model = Game
