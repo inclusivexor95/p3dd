@@ -70,11 +70,7 @@ class DetailView(generic.DetailView):
         for participant in current_participants.all():
             participant_names.append(participant)
         context["participant_names"] = participant_names
-<<<<<<< HEAD
         num_players = len(participant_names)
-=======
-        num_players = len(participant_names)-1
->>>>>>> efe4205eefaadabe4a42f59621100c3cc032bf4c
         context["num_players"] = num_players
         if num_players >= 1:
             context["last_participant"] = participant_names[num_players - 1]
