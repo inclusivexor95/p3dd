@@ -1,19 +1,21 @@
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
 from django.views import generic
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils import timezone
 # from django.template import loader
 from django.db.models import Count
 
-from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Game, Character
-from .forms import SignUpForm
+
 
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
@@ -56,12 +58,9 @@ class IndexView(generic.ListView):
 
         return games
 
-
-
 class DetailView(generic.DetailView):
     model = Game
     template_name = 'group_finder/detail.html'
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -76,7 +75,7 @@ class DetailView(generic.DetailView):
 
         return context
 
-class AccountView(generic.ListView):
+class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
     context_object_name = 'personal_game_list'
 
@@ -85,21 +84,19 @@ class AccountView(generic.ListView):
         """
         Return your last five created/joined games.
         """
-        # RIGHT NOW THIS JUST ASSUMES YOU ARE "ADMIN", MUST BE CHANGED WHEN LOGIN IS IMPLEMENTED
-        
-        return User.objects.get(id=1).game_set.all().order_by('-creation_date')[:5]
+        user_game = Game.objects.filter(users=self.request.user)
+        return user_game.order_by('-creation_date')
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        user_object = User.objects.get(id=1)
+        user_object = self.request.user
         
         context["username"] = user_object.username
         context["email"] = user_object.email
         context["first_name"] = user_object.first_name
-        context["last_name"] = user_object.last_name
+        # context["last_name"] = user_object.last_name
         context["date_joined"] = user_object.date_joined
 
         return context
@@ -110,18 +107,19 @@ class AccountView(generic.ListView):
 def about(request):
     return render(request, 'group_finder/about.html')
 
-class ManagementView(generic.ListView):
+class ManagementView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/management.html'
     context_object_name = 'hosted_game_list'
 
     def get_queryset(self):
         """
-        Return your last five created games.
+        Return your created games.
         """
-        # THIS MUST BE CHANGED TO GET ONLY CURRENT USER/ACCOUNT'S CREATED GAMES
-        return User.objects.get(id=1).game_set.all().filter(host_id=1).order_by('-creation_date')[:5]
+        # CURRENT USER/ACCOUNT'S CREATED GAMES
+        # yvonne: deleted [:5] cause we want to see all of the user created games i think
+        return Game.objects.filter(users=self.request.user).filter(host_id=1).order_by('-creation_date')
 
-class EditView(generic.DetailView):
+class EditView(LoginRequiredMixin,generic.DetailView):
     model = Game
     template_name = 'group_finder/edit.html'
     
@@ -147,12 +145,29 @@ class EditView(generic.DetailView):
 #     # return redirect('detail', args=game.id)
 #     return redirect(f'/group_finder/{game.id}/')
 
-class GameCreate(CreateView):
+class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
-    fields = ['game_text', 'campaign_text']
+    fields = ['game_text', 'campaign_text','game_type']
     def form_valid(self,form):
         form.instance.user = self.request.user
+        form.instance.host_id =self.request.user.id
         return super().form_valid(form)
+    
+
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
+    email = forms.EmailField(label = "Email", required=True)
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'email')
+    
+    def save(self, commit=True):
+        user = super(SignUpForm, self).save(commit=False)
+        user.display_name = self.cleaned_data['first_name']
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user 
 
 
 def signup(request):
@@ -163,10 +178,10 @@ def signup(request):
             user = form.save()
             login(request, user)
             return redirect('/group_finder/')
-    else:
-        error_message = "Invalid sign up - please try again"
-        form = SignUpForm()
-        context = {'form': form, 'error_message': error_message}
-        return render(request, 'registration/signup.html', context)
+        else:
+            error_message = "Invalid sign up - please try again"
+    form = SignUpForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
 
 
