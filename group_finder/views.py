@@ -13,7 +13,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Game, Character
-from .form import SignUpForm
+from .forms import SignUpForm
 
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
