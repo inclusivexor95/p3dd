@@ -12,7 +12,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     # path('management/new/', views.create, name='create_game'),
     # path('management/', views.ManagementView.as_view(), name='management'),
-
     path('create/', views.GameCreate.as_view(), name='game_create'),
     path('<int:pk>/edit/', views.EditView.as_view(), name='edit'),
     path('accounts/signup/', views.signup, name='signup'),
