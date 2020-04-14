@@ -7,6 +7,7 @@ app_name = 'group_finder'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    # path('<int:pk>/', views.game_detail, name='detail'),
     # path('login/', views.login, name='login'),
     path('account/', views.AccountView.as_view(), name='account'),
     path('about/', views.about, name='about'),
