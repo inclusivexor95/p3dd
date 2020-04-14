@@ -22,6 +22,7 @@ class Game(models.Model):
     # participants = models.ManyToManyField(Account)
     creation_date = models.DateTimeField(('date created'), default=timezone.now)
     host_id = models.IntegerField()
+    accepting_players = models.BooleanField(default=True)
     def __str__(self):
         return self.game_text
     def get_absolute_url(self):
