@@ -21,33 +21,41 @@ class IndexView(generic.ListView):
     
 
     def get_queryset(self):
-        if self.request.method == 'POST':
+
+        if self.request.GET:
+
+            form = self.request.GET
+
             games = Game.objects.all().annotate(num_players=(Count('users') - 1))
-            form = self.request.POST
-            if form.searchGame != '':
-                games.filter(game_text__icontains=(form.searchGame))
-            if form.searchCampaign != '':
-                games.filter(campaign_text__icontains=(form.searchCampaign))
+
+            if form.get('searchGame', ''):
+                games = games.filter(game_text__icontains=(form.get('searchGame', '')))
+            if form.get('searchCampaign', ''):
+                games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
 
             # do this later
             # if form.newPlayers == True:
             # elif form.newPlayers == False:
 
-            if form.sortBy == 'recent':
-                games.order_by('-creation_date')
-            elif form.sortBy == 'name':
-                games.order_by('game_text')
-            elif form.sortBy == 'numPlayersAscending':
-                games.order_by('num_players')
-            elif form.sortBy == 'numPlayersDescending':
-                games.order_by('-num_players')
+            sort = form.get('sortBy', 'recent')
+            
+            if sort == 'recent':
+                games = games.order_by('-creation_date')
+            elif sort == 'name':
+                games = games.order_by('game_text')
+            elif sort == 'numPlayersAscending':
+                games = games.order_by('num_players')
+            elif sort == 'numPlayersDescending':
+                games = games.order_by('-num_players')
 
-            return games
-        
+            # self.url.split('?', maxsplit=1)[0]
 
+        else:
 
-        elif self.request.method == 'GET':
-            return Game.objects.all().order_by('-creation_date')[:5].annotate(num_players=(Count('users') - 1))
+            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).annotate(request_data=Count('users')).order_by('-creation_date')
+
+        return games
+
 
 
 class DetailView(generic.DetailView):

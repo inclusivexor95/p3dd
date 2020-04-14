@@ -3,12 +3,12 @@
 
 <div id="findGame">
     <h2>Find a Game</h2>
-    <form action="/group_finder/" method="POST">
+    <form action="/group_finder/" method="GET">
         {% csrf_token %}
         <div class="formContainer">
             <div>
                 <label for="searchGame">Search by Game Name</label>
-                <input type="text" id="searchGame" name="searchGame>
+                <input type="text" id="searchGame" name="searchGame">
             </div>
             <div>
                 <label for="sortBy">Sort By:</label>
@@ -47,12 +47,14 @@
             <p>Number of Players:{{ game.num_players }}</p>
         </li>
         <!-- <li><a href="">Game Link Here</a></li> -->
+        
         {% endfor %}
         </ul>
     {% else %}
         <p>No games are available.</p>
     {% endif %}
-
+        
+        
 </div>
     
 {% endblock %}
