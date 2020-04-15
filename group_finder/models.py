@@ -33,6 +33,8 @@ class Game(models.Model):
 class Character(models.Model):
     name_text = models.CharField(max_length=50)
     player_text = models.CharField(max_length=30)
+    race_text = models.CharField(max_length=30)
+    class_text = models.CharField(max_length=30)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     def __str__(self):
         return self.name_text

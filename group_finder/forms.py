@@ -1,5 +1,5 @@
 from django import forms
-from .models import Game
+from .models import Game, Character
 
 
 GAME_TYPE_CHOICES = [
@@ -14,6 +14,13 @@ GAME_TYPE_CHOICES = [
     ('Other', 'Other')
 ]
 
+CHARACTER_GAME_CHOICES = [
+    ('', ''),
+    ('Dungeons and Dragons', 'D&D'), 
+    ('Pathfinder', 'Pathfinder'),
+    ('Other', 'Other'),
+]
+
 class CreateGameForm(forms.ModelForm):
     class Meta:
         model = Game
@@ -25,3 +32,14 @@ class CreateGameForm(forms.ModelForm):
         widgets = {
             'game_type': forms.Select(choices=GAME_TYPE_CHOICES)
         }
+
+# class CreateCharForm(forms.ModelForm):
+#     class Meta:
+#         model = Character
+#         fields = [
+#             'name_text',
+#             'player_text',
+#             'race_text',
+#             'class_text',
+
+#         ]
