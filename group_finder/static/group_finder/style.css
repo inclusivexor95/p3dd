@@ -37,7 +37,7 @@ body {
 .wrapper {
     margin: 0 auto;
     width: 85%;
-    min-height: 88vh;
+    min-height: auto;
     max-width: 1300px;
     background-image: url(./assets/scrollBackground.jpg);
     border-left: 0.2rem solid black;
@@ -135,4 +135,83 @@ div.gameContainer {
     background-color: blanchedalmond;
     height: 20vh;
     margin-top: 3%;
+}
+
+input[type = submit] {
+    font-family: Tiamat Regular;
+    font-size: 25px;
+    color:crimson;
+    background-color: black;
+    border: black;
+    max-width: 150px;
+}
+
+input[type = submit]:hover{
+    color:black;
+    background-color: crimson;
+    border: crimson;
+    max-width: 150px;
+}
+
+div.right{
+    color: white;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+label{
+    font-family: Tiamat Regular;
+    font-size: 25px;
+    
+
+}
+/* p{
+    display: inline-block;
+} */
+ul{
+    display: inline-block;
+    font-size: 20px;
+    font-family: Tiamat Regular;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    bottom: 18px
+}
+li{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    color: #4c4c4c;
+}
+
+.helptext{
+    font-family: Tiamat Regular;
+    font-size: 20px;
+    display: block;
+    padding: 10px 0px;
+    margin: 10px 0px;
+    color:#4c4c4c;
+}
+input{
+    display: inline-block;
+    
+}
+
+nav ul{
+    position: static;
+}
+
+input[type = text]{
+    position: absolute;
+    left: 400px;
+} 
+input[type = email]{
+    position: absolute;
+    left: 400px;
+}
+input[type = password]{
+    position: absolute;
+    left: 400px;
 }
