@@ -117,6 +117,7 @@ LOGIN_REDIRECT_URL = '/group_finder/'
 
 LOGOUT_REDIRECT_URL = '/group_finder/'
 
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())
+
 
