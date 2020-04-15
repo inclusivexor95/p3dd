@@ -27,7 +27,7 @@ class IndexView(generic.ListView):
 
             form = self.request.GET
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1))
+            games = Game.objects.all().annotate(num_players=(Count('users')))
 
             if form.get('searchGame', ''):
                 games = games.filter(game_text__icontains=(form.get('searchGame', '')))
@@ -86,12 +86,9 @@ class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
     context_object_name = 'personal_game_list'
 
-
     def get_queryset(self):
-        """
-        Return your last five created/joined games.
-        """
-        user_game = Game.objects.filter(users=self.request.user)
+
+        user_game = Game.objects.filter(host_id=self.request.user.id)
         return user_game.order_by('-creation_date')
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
@@ -155,11 +152,12 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
     fields = ['game_text', 'campaign_text','game_type'] 
+    
     def form_valid(self,form):
         form.instance.user = self.request.user   
         form.instance.host_id =self.request.user.id
         return super().form_valid(form)
-    
+
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
