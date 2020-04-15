@@ -1,0 +1,1 @@
+web: gunicorn p3dd.wsgi
