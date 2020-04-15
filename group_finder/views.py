@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Game, Character
+from .forms import CreateGameForm
 
 
 class IndexView(generic.ListView):
@@ -55,7 +56,7 @@ class IndexView(generic.ListView):
 
         else:
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).order_by('-creation_date')
+            games = Game.objects.all().annotate(num_players=(Count('users'))).order_by('-creation_date')
 
         return games
 
@@ -88,7 +89,7 @@ class AccountView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
 
-        user_game = Game.objects.filter(host_id=self.request.user.id)
+        user_game = Game.objects.filter(users__pk=self.request.user.id)
         return user_game.order_by('-creation_date')
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
@@ -150,13 +151,17 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 #     return redirect(f'/group_finder/{game.id}/')
 
 class GameCreate(LoginRequiredMixin, CreateView):
+    form_class = CreateGameForm
     model = Game
-    fields = ['game_text', 'campaign_text','game_type'] 
-    
+    # fields = ['game_text', 'campaign_text','game_type']
+
+
     def form_valid(self,form):
-        form.instance.user = self.request.user   
-        form.instance.host_id =self.request.user.id
+        form.instance.host_id = self.request.user.id
+        self.object = form.save()
+        self.object.users.add(User.objects.get(id=self.request.user.id))
         return super().form_valid(form)
+
 
 
 class SignUpForm(UserCreationForm):
