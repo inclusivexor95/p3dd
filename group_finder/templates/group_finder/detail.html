@@ -2,8 +2,11 @@
 {% block content %}
 <div id="gameDetail">
     <h2>{{ object.game_text }}</h2>
-    <p>
-        <p>{{ object.campaign_text }}</p>
+    <div>
+
+        <p>Game: {{ object.game_type }}</p>
+
+        <p>Campaign: {{ object.campaign_text }}</p>
 
         <p>Number of Players: {{ num_players }}</p>
 
@@ -33,7 +36,7 @@
 
             {% else %}
 
-            No</p>
+            No</div>
 
             {% endif %}
 

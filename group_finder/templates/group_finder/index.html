@@ -25,6 +25,19 @@
                 <label for="searchCampaign">Search by Campaign Name</label>
                 <input type="text" id="searchCampaign" name="searchCampaign">
             </div>
+            <div>
+                <label for="chooseGame">Filter By Game:</label>
+                <select name="chooseGame" id="chooseGame">
+                    <option value="Dungeons and Dragons">D&D</option>
+                    <option value="Magic the Gathering">Magic the Gathering</option>
+                    <option value="Board Games">Board Games</option>
+                    <option value="Yu-Gi-Oh TCG">Yu-Gi-Oh TCG</option>
+                    <option value="Pokemon TCG">Pokemon TCG</option>
+                    <option value="Pathfinder">Pathfinder</option>
+                    <option value="Warhammer">Warhammer</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
         </div>
         <div class="formContainer">
             <div>
@@ -42,9 +55,10 @@
         <ul>
         {% for game in latest_game_list %}
         <li>
-            <a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a>
-            <p>Campaign Name: {{ game.campaign_text }}</p>
-            <p>Number of Players:{{ game.num_players }}</p>
+            <a href="{% url 'group_finder:detail' game.id %}">{{ game.game_text }}</a>
+            <p>Game: {{ game.game_type }}</p>
+            <p>Campaign: {{ game.campaign_text }}</p>
+            <p>Number of Players: {{ game.num_players }}</p>
         </li>
         <!-- <li><a href="">Game Link Here</a></li> -->
         
