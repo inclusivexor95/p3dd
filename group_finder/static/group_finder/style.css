@@ -121,7 +121,7 @@ div.formContainer {
 #gameList ul li {
     width: 45%;
     background-color: blanchedalmond;
-    height: 20vh;
+    /* height: 20vh; */
     margin-top: 4%;
 }
 
