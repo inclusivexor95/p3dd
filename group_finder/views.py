@@ -158,7 +158,7 @@ class GameCreate(LoginRequiredMixin, CreateView):
 
 
     def form_valid(self,form):
-        self.object.host_id = self.request.user.id
+        form.instance.host_id = self.request.user.id
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
         return super().form_valid(form)
