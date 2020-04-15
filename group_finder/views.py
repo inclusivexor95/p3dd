@@ -81,9 +81,6 @@ class DetailView(generic.DetailView):
 
         return context
 
-# def game_detail(request, game_id):
-#     game = Game.objects.get(id=game_id)
-#     return render(request, 'group_finder/detail.html')
 
 class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
@@ -92,6 +89,7 @@ class AccountView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
 
         user_game = Game.objects.filter(users__pk=self.request.user.id)
+        
         return user_game.order_by('-creation_date')
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
@@ -106,10 +104,17 @@ class AccountView(LoginRequiredMixin, generic.ListView):
         # context["last_name"] = user_object.last_name
         context["date_joined"] = user_object.date_joined
 
+        user_game = Game.objects.filter(users__pk=self.request.user.id)
+        user_game.order_by('-creation_date')
+
+        # hosts = {}
+        # for game in user_game:
+        #     hosts[f"{game.id}"] = [(User.objects.get(id = game.host_id)), (game.game_text)]
+
+        # context["hosts"] = hosts.items() 
+        
         return context
 
-# def login(request):
-#     return render(request, 'group_finder/login.html')
 
 def about(request):
     return render(request, 'group_finder/about.html')
@@ -144,13 +149,6 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 
         return context
 
-# def create(request):
-#     game_data = request.POST.get('gameName')
-#     campaign_data = request.POST.get('campaignName')
-#     game = Account.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
-#     game.save()
-#     # return redirect('detail', args=game.id)
-#     return redirect(f'/group_finder/{game.id}/')
 
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
