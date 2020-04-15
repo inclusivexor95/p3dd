@@ -4,17 +4,15 @@ from .models import Game
 
 GAME_TYPE_CHOICES = [
     ('', ''),
-    ('dnd', 'D&D'), 
-    ('magic', 'Magic the Gathering'),
-    ('boardGame', 'Board Games'),
-    ('yugioh', 'Yu-Gi-Oh TCG'),
-    ('pokemon', 'Pokemon TCG'),
-    ('pathfinder', 'Pathfinder'),
-    ('warhammer', 'Warhammer'),
-    ('other', 'Other')
+    ('Dungeons and Dragons', 'D&D'), 
+    ('Magic the Gathering', 'Magic the Gathering'),
+    ('Board Games', 'Board Games'),
+    ('Yu-Gi-Oh TCG', 'Yu-Gi-Oh TCG'),
+    ('Pokemon TCG', 'Pokemon TCG'),
+    ('Pathfinder', 'Pathfinder'),
+    ('Warhammer', 'Warhammer'),
+    ('Other', 'Other')
 ]
-
-
 
 class CreateGameForm(forms.ModelForm):
     class Meta:
