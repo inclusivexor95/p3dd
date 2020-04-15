@@ -29,7 +29,7 @@ class IndexView(generic.ListView):
 
             form = self.request.GET
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1))
+            games = Game.objects.all().annotate(num_players=(Count('users')))
 
             if form.get('searchGame', ''):
                 games = games.filter(game_text__icontains=(form.get('searchGame', '')))
@@ -57,7 +57,7 @@ class IndexView(generic.ListView):
 
         else:
 
-            games = Game.objects.all().annotate(num_players=(Count('users') - 1)).order_by('-creation_date')
+            games = Game.objects.all().annotate(num_players=(Count('users'))).order_by('-creation_date')
 
         return games
 
