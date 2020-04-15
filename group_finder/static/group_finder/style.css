@@ -111,17 +111,18 @@ div.formContainer {
     justify-content: space-between;
 }
 
-#gameList ul {
+#gameList ul, #charList ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0;
 }
 
-#gameList ul li {
+#gameList ul li, #charList ul li {
     width: 45%;
     background-color: blanchedalmond;
     /* height: 20vh; */
+    /* margin-top: 4%; */
     margin-top: 4%;
 }
 

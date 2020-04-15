@@ -40,6 +40,23 @@
 
             {% endif %}
 
+        <div id="charList">
+            <h2>Characters in this game: </h2>
+            <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
+            <ul>
+                {% for character in characters %}
+                <li>
+                    <p>Character Name: {{ character.name_text }}</p>
+                    <p>Player Name: {{ character.player_text }}</p>
+                    <p>Character Race: {{ character.race_text }}</p>
+                    <p>Character Class: {{ character.class_text }}</p>
+
+                </li>
+                
+                {% endfor %}
+            </ul>
+        </div>
+
     </div>
 
 </div>

@@ -76,6 +76,9 @@ class DetailView(generic.DetailView):
             context["last_participant"] = participant_names[num_players - 1]
         elif num_players == 1:
             context["last_participant"] = participant_names[0]
+        
+        # characters = self.object.character_set.all()
+        context["characters"] = self.object.character_set.all()
 
         return context
 
