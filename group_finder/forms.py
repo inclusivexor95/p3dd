@@ -1,5 +1,5 @@
 from django import forms
-from .models import Game
+from .models import Game, Character
 
 
 GAME_TYPE_CHOICES = [

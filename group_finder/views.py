@@ -51,8 +51,7 @@ class IndexView(generic.ListView):
                 games = games.order_by('num_players')
             elif sort == 'numPlayersDescending':
                 games = games.order_by('-num_players')
-
-            # self.url.split('?', maxsplit=1)[0]
+        
 
         else:
 
@@ -76,7 +75,11 @@ class DetailView(generic.DetailView):
             context["last_participant"] = participant_names[num_players - 1]
         elif num_players == 1:
             context["last_participant"] = participant_names[0]
+
 #need to add host name in detail page
+        
+        # characters = self.object.character_set.all()
+        context["characters"] = self.object.character_set.all()
         return context
 
 class AccountView(LoginRequiredMixin, generic.ListView):
@@ -117,7 +120,6 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
         Return your created games.
         """
         # CURRENT USER/ACCOUNT'S CREATED GAMES
-        # yvonne: deleted [:5] cause we want to see all of the user created games i think
         return Game.objects.filter(users=self.request.user).filter(host_id=1).order_by('-creation_date')
 
 # class EditView(LoginRequiredMixin,generic.DetailView):
@@ -152,6 +154,15 @@ class GameCreate(LoginRequiredMixin, CreateView):
 class GameUpdate(LoginRequiredMixin, UpdateView):
     model = Game
     fields = ['game_text', 'campaign_text', 'game_type']
+
+class CharCreate(LoginRequiredMixin, CreateView):
+    # form_class = CreateCharForm
+    model = Character
+    fields = ['name_text', 'player_text', 'race_text', 'class_text']
+
+    def form_valid(self, form):
+        form.instance.game = Game.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
 
 
 class GameDelete(LoginRequiredMixin, DeleteView):
