@@ -3,20 +3,24 @@
 <div>
     <h2>This is your account info</h2>
     <p>Username: {{ username }}</p>
-    <p>First Name: {{ first_name }}</p>
-    <p>Last Name: {{ last_name }}</p>
+    <p>Display Name: {{ first_name }}</p>
     <p>Email Address: {{ email }}</p>
     <p>Date Joined: {{ date_joined }}</p>
 
 </div>
 <div>
-    <h2>These are the games you're in</h2>
-    {% for game in personal_game_list %}
-    <!-- <p> -->
-        <!-- {{ game }} -->
-    <p><a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a></p>
+    {% if personal_game_list%}
+        <h2>These are the games you're in</h2>
+        {% for game in personal_game_list %}
+        <!-- <p> -->
+            <!-- {{ game }} -->
+        <p><a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a></p>
 
-    <!-- </!--> -->
-    {% endfor %}
+        <!-- </!--> 
+        {% endfor %}
+    {% else %}
+        <h2>There are no games you're in! Join or start a game!</h2>
+    {% endif %}
+
 </div>
 {% endblock %}

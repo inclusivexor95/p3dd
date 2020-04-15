@@ -76,12 +76,8 @@ class DetailView(generic.DetailView):
             context["last_participant"] = participant_names[num_players - 1]
         elif num_players == 1:
             context["last_participant"] = participant_names[0]
-
+#need to add host name in detail page
         return context
-
-# def game_detail(request, game_id):
-#     game = Game.objects.get(id=game_id)
-#     return render(request, 'group_finder/detail.html')
 
 class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
@@ -124,45 +120,43 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
         # yvonne: deleted [:5] cause we want to see all of the user created games i think
         return Game.objects.filter(users=self.request.user).filter(host_id=1).order_by('-creation_date')
 
-class EditView(LoginRequiredMixin,generic.DetailView):
-    model = Game
-    template_name = 'group_finder/edit.html'
+# class EditView(LoginRequiredMixin,generic.DetailView):
+#     model = Game
+#     template_name = 'group_finder/edit.html'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
         
-        current_participants = self.object.users
-        participant_names = []
-        for participant in current_participants.all():
-            participant_names.append(participant)
-        context["participant_names"] = participant_names
-        num_players = len(participant_names) - 1
-        context["num_players"] = num_players
-        context["last_participant"] = participant_names[num_players]
+#         current_participants = self.object.users
+#         participant_names = []
+#         for participant in current_participants.all():
+#             participant_names.append(participant)
+#         context["participant_names"] = participant_names
+#         num_players = len(participant_names) - 1
+#         context["num_players"] = num_players
+#         context["last_participant"] = participant_names[num_players]
 
-        return context
-
-# def create(request):
-#     game_data = request.POST.get('gameName')
-#     campaign_data = request.POST.get('campaignName')
-#     game = Account.objects.get(id=1).game_set.create(game_text=game_data, campaign_text=campaign_data, host_id=1)
-#     game.save()
-#     # return redirect('detail', args=game.id)
-#     return redirect(f'/group_finder/{game.id}/')
+#         return context
 
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
     model = Game
     # fields = ['game_text', 'campaign_text','game_type']
-
-
+    
     def form_valid(self,form):
         form.instance.host_id = self.request.user.id
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
         return super().form_valid(form)
 
+class GameUpdate(LoginRequiredMixin, UpdateView):
+    model = Game
+    fields = ['game_text', 'campaign_text', 'game_type']
 
+
+class GameDelete(LoginRequiredMixin, DeleteView):
+    model = Game
+    success_url = '/group_finder/account'
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
@@ -179,7 +173,7 @@ class SignUpForm(UserCreationForm):
             user.save()
         return user 
 
-
+#need to build in a more dynamic error message
 def signup(request):
     error_message = ''
     if request.method == 'POST':
