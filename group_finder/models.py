@@ -38,3 +38,5 @@ class Character(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     def __str__(self):
         return self.name_text
+    def get_absolute_url(self):
+        return reverse('group_finder:detail', kwargs={'pk': self.game.id})
