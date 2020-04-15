@@ -2,7 +2,11 @@
 {% block content %}
 
 <div>
-    <h2>Create a New Game</h2>
+    {% if object %}
+        <h2>Edit{{object.name}}</h2>
+    {% else %}
+        <h2>Create a New Game</h2>
+    {% endif %}
     <form action="" method="POST">
         {% csrf_token%}
         <table>
@@ -10,6 +14,13 @@
         </table>
         <input type="submit" value="Submit!">
     </form>
-</div>
+    {% if object and object.host_id == request.user.id %}</h2>
+        <div>
+            <a href="{% url 'group_finder:game_update' game.id %}">Edit</a>
+            <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
+        </div>
+    {% endif %}
 
+
+</div>
 {% endblock %}

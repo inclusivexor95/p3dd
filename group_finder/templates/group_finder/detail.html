@@ -3,43 +3,27 @@
 <div id="gameDetail">
     <h2>{{ object.game_text }}</h2>
     <div>
-
         <p>Game: {{ object.game_type }}</p>
-
         <p>Campaign: {{ object.campaign_text }}</p>
-
         <p>Number of Players: {{ num_players }}</p>
-
         <p>Current Members:
-
-        {% for participant in participant_names %}
-
-        {% if participant == last_participant %}
-
-        {{ participant }}
-
-        {% else %}
-
-        {{ participant }},
-
-        {% endif %}
-        
-        {% endfor %}
-
-        </p>
-
-        <p>Accepting New Players? 
-            
-            {% if object.accepting_players %}
-
-            Yes</p>
-
+            {% for participant in participant_names %}
+            {% if participant == last_participant %}
+            {{ participant }}
             {% else %}
-
-            No</div>
-
+            {{ participant }},
+            {% endif %}        
+            {% endfor %}
+        </p>
+        <p>
+            Accepting New Players?             
+            {% if object.accepting_players %}
+                Yes
+        
+            {% else %}
+                No
             {% endif %}
-
+          
         <div id="charList">
             <h2>Characters in this game: </h2>
             <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
@@ -56,6 +40,14 @@
                 {% endfor %}
             </ul>
         </div>
+          </p>
+
+        {% if object and object.host_id == request.user.id %}</h2>
+            <div>
+                <a href="{% url 'group_finder:game_update' game.id %}">Edit</a>
+                <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
+            </div>
+        {% endif %}
 
     </div>
 
