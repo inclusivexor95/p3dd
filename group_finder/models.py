@@ -6,19 +6,11 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
-# class Account(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return self.user.username
-#     def get_account_id(self):
-#         return self.id
-
-
 class Game(models.Model):
     users = models.ManyToManyField(User)
-    game_text = models.CharField(max_length=200)
-    campaign_text = models.CharField(max_length=200)
-    game_type = models.CharField(max_length=100)
+    game_text = models.CharField(max_length=200, verbose_name=('Game Name'))
+    campaign_text = models.CharField(max_length=200, verbose_name=('Campaign Name'))
+    game_type = models.CharField(max_length=100, verbose_name=('Game'))
     # participants = models.ManyToManyField(Account)
     creation_date = models.DateTimeField(('date created'), default=timezone.now)
     host_id = models.IntegerField()
@@ -31,10 +23,10 @@ class Game(models.Model):
 
 
 class Character(models.Model):
-    name_text = models.CharField(max_length=50)
-    player_text = models.CharField(max_length=30)
-    race_text = models.CharField(max_length=30)
-    class_text = models.CharField(max_length=30)
+    name_text = models.CharField(max_length=50, verbose_name=('Character Name'))
+    player_text = models.CharField(max_length=30, verbose_name=('Your Name'))
+    race_text = models.CharField(max_length=30, verbose_name=('Character Race'))
+    class_text = models.CharField(max_length=30, verbose_name=('Character Class'))
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     def __str__(self):
         return self.name_text

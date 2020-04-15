@@ -51,8 +51,7 @@ class IndexView(generic.ListView):
                 games = games.order_by('num_players')
             elif sort == 'numPlayersDescending':
                 games = games.order_by('-num_players')
-
-            # self.url.split('?', maxsplit=1)[0]
+        
 
         else:
 
@@ -156,7 +155,6 @@ class EditView(LoginRequiredMixin,generic.DetailView):
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
     model = Game
-    # fields = ['game_text', 'campaign_text','game_type']
 
     def form_valid(self, form):
         form.instance.host_id = self.request.user.id
@@ -166,13 +164,12 @@ class GameCreate(LoginRequiredMixin, CreateView):
 
 
 class CharCreate(LoginRequiredMixin, CreateView):
+    # form_class = CreateCharForm
     model = Character
     fields = ['name_text', 'player_text', 'race_text', 'class_text']
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(id=self.kwargs['pk'])
-        # self.object = form.save()
-        # self.object.game = Game.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
 
 
