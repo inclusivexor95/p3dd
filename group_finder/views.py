@@ -106,14 +106,15 @@ class AccountView(LoginRequiredMixin, generic.ListView):
                 game.host += ' (You)'
 
 
-        hosted_games = user_game.filter(host_id=self.request.user.id)
-
-        for game in hosted_games:
-            if len(game.applications) > 0:
-                game.application_username = []
-                for application in game.applications:
-                    game.application_username.append(application[0])
-
+        for game in user_game:
+            if game.host_id == self.request.user.id:
+                if len(game.applications) > 0:
+                    game.application_username = []
+                    for application in game.applications:
+                        game.application_username.append(application[0])
+                else:
+                    game.application_username = 'yo'
+        
 
         return user_game
 
@@ -251,6 +252,8 @@ class GameApply(LoginRequiredMixin, View):
 
         user_name_string = str(self.request.user)
 
-        current_game.applications.append([user_name_string, user_id_string])
+        if [user_name_string, user_id_string] not in current_game.applications:
+            current_game.applications.append([user_name_string, user_id_string])
+            current_game.save()
 
-        return reverse('group_finder:detail', kwargs={'pk': current_game_id})
+        return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
