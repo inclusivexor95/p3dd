@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
+<div class="accountInfo">
     <h2>This is your account info</h2>
-    <p>Username: {{ username }}</p>
-    <p>Display Name: {{ first_name }}</p>
-    <p>Email Address: {{ email }}</p>
-    <p>Date Joined: {{ date_joined }}</p>
+    <p><span class="greyed">Username:</span> {{ username }}</p>
+    <p><span class="greyed">Display Name:</span> {{ first_name }}</p>
+    <p><span class="greyed">Email Address: </span>{{ email }}</p>
+    <p><span class="greyed">Date Joined:</span> {{ date_joined }}</p>
 
 </div>
-<div>
+<div class="gamesIn">
     {% if personal_game_list%}
         <h2>These are the games you're in</h2>
         {% for game in personal_game_list %}
     
-        <p><a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a></p>
-        <p>Host: {{ game.host }}</p>
+        <p><span class="greyed">Game Name:</span><a href="{% url 'group_finder:detail' game.id %}"> {{ game.game_text }}</a></p>
+        <p><span class="greyed">Host: </span>{{ game.host }}</p>
 
         {% endfor %}
     {% else %}
