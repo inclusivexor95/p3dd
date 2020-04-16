@@ -1,6 +1,6 @@
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views import generic
+from django.views import generic, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils import timezone
 # from django.template import loader
@@ -17,6 +17,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Game, Character
 from .forms import CreateGameForm
+
+# import django.dispatch
+# apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
+
 
 
 class IndexView(generic.ListView):
@@ -124,8 +128,16 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
         """
         Return your created games.
         """
+        hosted_games = Game.objects.filter(users=self.request.user).filter(host_id=self.request.user.id).order_by('-creation_date')
+
+        for game in hosted_games:
+            if len(game.applications) > 0:
+                game.application_username = []
+                for application in game.applications:
+                    game.application_username.append(application[0])
+
         # CURRENT USER/ACCOUNT'S CREATED GAMES
-        return Game.objects.filter(users=self.request.user).filter(host_id=1).order_by('-creation_date')
+        return hosted_games
 
 # class EditView(LoginRequiredMixin,generic.DetailView):
 #     model = Game
@@ -155,6 +167,8 @@ class GameCreate(LoginRequiredMixin, CreateView):
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
         return super().form_valid(form)
+
+    
 
 class GameUpdate(LoginRequiredMixin, UpdateView):
     model = Game
@@ -203,3 +217,15 @@ def signup(request):
     form = SignUpForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+class GameApply(LoginRequiredMixin, View):
+
+    def apply_game(self):
+        current_game_id = self.kwargs['pk']
+        # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
+
+        current_game = Game.objects.get(id = current_game_id)
+
+        current_game.applications.append([self.request.user, str(self.request.user.id)])
+
+        reverse('group_finder:detail', kwargs={'pk': current_game_id})

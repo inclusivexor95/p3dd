@@ -17,7 +17,7 @@ urlpatterns = [
     # path('management/new/', views.create, name='create_game'),
     # path('management/', views.ManagementView.as_view(), name='management'),
 
-    
+    path('<int:pk>/join/', views.GameApply.as_view(), name='game_apply'),
     path('create/', views.GameCreate.as_view(), name='game_create'),
     path('<int:pk>/update/', views.GameUpdate.as_view(), name='game_update'),
     path('<int:pk>/delete/', views.GameDelete.as_view(), name='game_delete'),
