@@ -254,6 +254,7 @@ class GameApply(LoginRequiredMixin, View):
         if [user_name_string, user_id_string] not in current_game.applications:
             current_game.applications.append([user_name_string, user_id_string])
             current_game.save()
+        
 
         return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
 
@@ -287,7 +288,7 @@ class Deny(LoginRequiredMixin, View):
         user_id_string = user_id_array[1]
         current_game = Game.objects.get(id = current_game_id)
 
-        
+
         current_user_id = int(user_id_string)
         current_user = User.objects.get(id=current_user_id)
         user_name_string = str(current_user)
