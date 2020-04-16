@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from group_finder import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.IndexView.as_view()),
     path('group_finder/', include('group_finder.urls')),
     path('group_finder/accounts/', include('django.contrib.auth.urls'))
+
+
 ]

@@ -9,7 +9,6 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     # game details (**should change the naming if have time**)
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-
     # path('<int:pk>/', views.game_detail, name='detail'),
     # path('login/', views.login, name='login'),
     path('account/', views.AccountView.as_view(), name='account'),

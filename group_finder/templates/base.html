@@ -6,6 +6,8 @@
     <title>LookingForParty</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'group_finder/style.css' %}">
+   css">
+
 </head>
 <body>
     <nav>
@@ -24,6 +26,19 @@
         </ul>
     </nav>
     <div class="wrapper">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-
+                    {% if message.tags == 'error' %} 
+                        danger
+                    {% else %}
+                        {{message}}
+                    {% endif %}" role='alert'>
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </div>
