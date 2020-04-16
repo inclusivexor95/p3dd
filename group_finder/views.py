@@ -20,10 +20,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from .models import Game, Character
 from .forms import CreateGameForm,UpdateGameForm
 
-# import django.dispatch
-# apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
 
 
+def app_redirect(self):
+    return redirect(reverse('group_finder:index'))
 
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
