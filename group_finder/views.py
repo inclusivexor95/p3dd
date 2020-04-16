@@ -89,8 +89,14 @@ class AccountView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
 
         user_game = Game.objects.filter(users__pk=self.request.user.id)
-        
-        return user_game.order_by('-creation_date')
+
+        user_game.order_by('-creation_date')
+
+        for game in user_game:
+            game.host = User.objects.get(id = game.host_id)
+
+
+        return user_game
 
         # ALSO COULD DISPLAY YOUR CHARACTER THAT YOU'RE PLAYING IN THIS GAME
 
@@ -103,15 +109,6 @@ class AccountView(LoginRequiredMixin, generic.ListView):
         context["first_name"] = user_object.first_name
         # context["last_name"] = user_object.last_name
         context["date_joined"] = user_object.date_joined
-
-        user_game = Game.objects.filter(users__pk=self.request.user.id)
-        user_game.order_by('-creation_date')
-
-        # hosts = {}
-        # for game in user_game:
-        #     hosts[f"{game.id}"] = [(User.objects.get(id = game.host_id)), (game.game_text)]
-
-        # context["hosts"] = hosts.items() 
         
         return context
 
