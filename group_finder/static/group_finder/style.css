@@ -155,7 +155,7 @@ input[type = submit]:hover{
 
 div.right{
     color: white;
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
 }
@@ -202,16 +202,100 @@ input{
 nav ul{
     position: static;
 }
+/* sign-up sheet styles */
 
-input[type = text]{
+input[name = username]{
     position: absolute;
     left: 400px;
 } 
+
+input[name = first_name]{
+    position: absolute;
+    left: 400px;
+} 
+
 input[type = email]{
     position: absolute;
     left: 400px;
 }
+
 input[type = password]{
     position: absolute;
     left: 400px;
 }
+
+/* home sheet styles */
+
+.chooseGame{
+    font-size: 20px;
+}
+
+.sortBy{
+    font-size: 20px;
+}
+
+
+input[name = searchCampaign]{
+    font-size: 20px;
+    position: absolute;
+    left: 450px;
+}
+
+input[name = searchGame]{
+    font-size: 20px;
+    position: absolute;
+    left: 450px;
+}
+
+/* create a game style */
+
+input[name = game_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+input[name = campaign_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+#id_game_type{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+/* create a character style*/
+
+input[name = name_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+input[name = player_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+input[name = player_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+input[name = race_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
+input[name = class_text]{
+    font-size: 20px;
+    position: relative;
+    left: 10px;
+}
+
