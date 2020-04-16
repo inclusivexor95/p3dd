@@ -22,7 +22,7 @@
 
         {% for username in game.application_username %}
         
-        <p>{{ username }} <a href=""><button>Approve</button></a> <a href=""><button>Deny</button></a> </p>
+        <p>{{ username }} <a href="{% url 'group_finder:approve' game.id username %}"><button>Approve</button></a> <a href="{% url 'group_finder:deny' pk=game.id user_id_string=username %}"><button>Deny</button></a> </p>
 
         {% endfor %}
 

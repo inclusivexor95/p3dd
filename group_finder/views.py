@@ -111,9 +111,8 @@ class AccountView(LoginRequiredMixin, generic.ListView):
                 if len(game.applications) > 0:
                     game.application_username = []
                     for application in game.applications:
-                        game.application_username.append(application[0])
-                else:
-                    game.application_username = 'yo'
+                        game.application_username.append(f'{application[0]} userid:{application[1]}')
+
         
 
         return user_game
@@ -257,3 +256,45 @@ class GameApply(LoginRequiredMixin, View):
             current_game.save()
 
         return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
+
+class Approve(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.users.add(current_user)
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+        
+
+
+
+class Deny(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+        
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+
