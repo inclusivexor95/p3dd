@@ -7,16 +7,18 @@ from django.utils import timezone
 from django.db.models import Count
 from django.urls import reverse_lazy, reverse
 
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Game, Character
-from .forms import CreateGameForm
+from .forms import CreateGameForm,UpdateGameForm
 
 
 class IndexView(generic.ListView):
@@ -81,6 +83,8 @@ class DetailView(generic.DetailView):
         # characters = self.object.character_set.all()
         context["characters"] = self.object.character_set.all()
         return context
+    
+    
 
 class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
@@ -157,11 +161,13 @@ class GameCreate(LoginRequiredMixin, CreateView):
         form.instance.host_id = self.request.user.id
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
+        messages.success(self.request,"The game post was created successfully!")
         return super().form_valid(form)
 
-class GameUpdate(LoginRequiredMixin, UpdateView):
+class GameUpdate(LoginRequiredMixin, SuccessMessageMixin,UpdateView):
+    success_message = "The game post was updated!"
+    form_class = UpdateGameForm
     model = Game
-    fields = ['game_text', 'campaign_text', 'game_type']
 
 class CharCreate(LoginRequiredMixin, CreateView):
     # form_class = CreateCharForm
@@ -170,12 +176,17 @@ class CharCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(id=self.kwargs['pk'])
+        messages.success(self.request,"The character was created successfully!")
         return super().form_valid(form)
 
 
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/group_finder/account'
+    success_message = "The game post was deleted!"
+    def delete(self, request, *args, **kwargs):
+        messages.warning(self.request, self.success_message)
+        return super(GameDelete, self).delete(request, *args, **kwargs)
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
@@ -200,6 +211,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            
             return redirect('/group_finder/')
         else:
             error_message = "Invalid sign up - please try again"
