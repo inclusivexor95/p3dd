@@ -97,7 +97,18 @@ class AccountView(LoginRequiredMixin, generic.ListView):
         user_game.order_by('-creation_date')
 
         for game in user_game:
-            game.host = User.objects.get(id = game.host_id)
+            game.host = str(User.objects.get(id = game.host_id))
+            if self.request.user.id == game.host_id:
+                game.host += ' (You)'
+
+
+        hosted_games = user_game.filter(host_id=self.request.user.id)
+
+        for game in hosted_games:
+            if len(game.applications) > 0:
+                game.application_username = []
+                for application in game.applications:
+                    game.application_username.append(application[0])
 
 
         return user_game
@@ -220,12 +231,16 @@ def signup(request):
 
 class GameApply(LoginRequiredMixin, View):
 
-    def apply_game(self):
+    def get(self, request, *args, **kwargs):
         current_game_id = self.kwargs['pk']
         # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
 
         current_game = Game.objects.get(id = current_game_id)
 
-        current_game.applications.append([self.request.user, str(self.request.user.id)])
+        user_id_string = str(self.request.user.id)
 
-        reverse('group_finder:detail', kwargs={'pk': current_game_id})
+        user_name_string = str(self.request.user)
+
+        current_game.applications.append([user_name_string, user_id_string])
+
+        return reverse('group_finder:detail', kwargs={'pk': current_game_id})

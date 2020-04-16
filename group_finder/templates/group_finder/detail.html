@@ -51,7 +51,7 @@
         {% elif object and object.host_id != request.user.id %}
 
             <div>
-                <a href="{% 'url group_finder:game_apply' game.id %}">Apply to Join This Game</a>
+                <a href="{% url 'group_finder:game_apply' game.id %}">Apply to Join This Game</a>
             </div>
 
         {% endif %}

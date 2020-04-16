@@ -16,6 +16,12 @@
         <p><a href="{% url 'group_finder:detail' game.id %}">Game Name: {{ game.game_text }}</a></p>
         <p>Host: {{ game.host }}</p>
 
+        {% if game.application_username %}
+
+        <p>Applications: {{ game.application_username }}</p>
+
+        {% endif %}
+
         {% endfor %}
     {% else %}
         <h2>There are no games you're in! Join or start a game!</h2>
