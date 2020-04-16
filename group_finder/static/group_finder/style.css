@@ -237,14 +237,13 @@ input[type = password]{
 
 input[name = searchCampaign]{
     font-size: 20px;
-    position: absolute;
-    left: 450px;
+    
+    display: block;
 }
 
 input[name = searchGame]{
     font-size: 20px;
-    position: absolute;
-    left: 450px;
+    display: block;
 }
 
 /* create a game style */
@@ -299,3 +298,28 @@ input[name = class_text]{
     left: 10px;
 }
 
+/* style game listings */
+
+li p, li a{
+    margin: 10px;
+}
+
+#gameList li{
+    border: 4px outset saddlebrown;
+}
+
+/*Acoount info style*/
+
+.accountInfo{
+    margin: 20px;
+    font-family: Tiamat Regular;
+}
+
+.gamesIn{
+    margin: 20px;
+    font-family: Tiamat Regular;
+}
+
+.greyed{
+    color: #484848;
+}
