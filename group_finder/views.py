@@ -110,15 +110,16 @@ class IndexView(generic.ListView):
 
         return games
 
-    # def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
 
-    #     if not self.request.GET:
-    #         context = super().get_context_data(**kwargs)
-    #         if self.request.user and self.request.user.account:
-    #             if self.request.user.account.notification:
-    #                 context["notification"] = self.request.user.account.notification
+        if not self.request.GET:
+            context = super().get_context_data(**kwargs)
+            if self.request.user.id: 
+                if self.request.user.account:
+                    if self.request.user.account.notification != 'None':
+                        context["notification"] = self.request.user.account.notification
 
-    #     return context
+        return context
 
 class DetailView(generic.DetailView):
     model = Game

@@ -69,6 +69,10 @@ h2 {
     margin: 0 0 2vh 0;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 
 p, a, label {
     font-size: calc(1.5rem + 0.5vw);
@@ -507,4 +511,50 @@ h4{
     display: flex;
     flex: wrap;
     justify-content: row;
+}
+
+#notification {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: maroon;
+    color: white;
+    z-index: 1;
+    height: 12vh;
+    padding: 1% 2% 3% 2%;
+    border: 1px solid black;
+    font-family: Tiamat Regular;
+    white-space: nowrap;
+    display: flex;
+}
+
+#notification a {
+    color: blue;
+}
+
+#notification a:hover {
+    /* background-color: darkgrey; */
+    color: black;
+}
+
+#notification p {
+    height: 5vh;
+}
+
+#notification button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 3vh;
+    width: 3vh;
+    background-color: black;
+    border: none;
+    color: white;
+    /* font-family: Tiamat Regular; */
+    font-size: 200%;
+}
+
+#notification button:hover {
+    cursor: pointer;
+    background-color: rgb(50,50,50);
 }
