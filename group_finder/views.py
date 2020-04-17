@@ -79,7 +79,22 @@ class DetailView(generic.DetailView):
         current_participants = self.object.users
         participant_names = []
         for participant in current_participants.all():
-            participant_names.append(participant)
+            if participant.id == self.request.user.id:
+                participant_names.append(str(participant) + '(You)')
+            else:
+                participant_names.append(str(participant))
+
+        host_object = User.objects.get(id=self.object.host_id)
+        if host_object.id == self.request.user.id:
+            context["host"] = str(host_object) + '(You)'
+        else:
+            context["host"] = str(host_object)
+
+        if self.object.game_type == 'Dungeons and Dragons' or self.object.game_type == 'Pathfinder':
+            context["character"] = True
+        else:
+            context["character"] = False
+
         context["participant_names"] = participant_names
         num_players = len(participant_names)
         context["num_players"] = num_players

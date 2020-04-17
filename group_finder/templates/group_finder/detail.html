@@ -5,6 +5,7 @@
     <div>
         <p><span class="greyed">Game:</span> {{ object.game_type }}</p>
         <p><span class="greyed">Campaign:</span> {{ object.campaign_text }}</p>
+        <p><span class="greyed">Host:</span> {{ host }}</p>
         <p><span class="greyed">Number of Players:</span> {{ num_players }}</p>
         <p><span class="greyed">Current Members:</span>
             {% for participant in participant_names %}
@@ -24,6 +25,8 @@
                 &nbsp; <span class="red">No</span>
             {% endif %}
             </p>
+
+        {% if character %}
         
         <div id="charList">
             <h2>Characters in this game: </h2>
@@ -42,6 +45,7 @@
             </ul>
         </div>
             
+        {% endif %}
 
         {% if object and object.host_id == request.user.id %}</h2>
             <div class="edButton">
