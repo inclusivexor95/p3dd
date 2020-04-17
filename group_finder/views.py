@@ -78,11 +78,15 @@ class DetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         current_participants = self.object.users
         participant_names = []
+        in_game = False
         for participant in current_participants.all():
             if participant.id == self.request.user.id:
                 participant_names.append(str(participant) + '(You)')
+                in_game = True
             else:
                 participant_names.append(str(participant))
+        
+        context["in_game"] = in_game
 
         host_object = User.objects.get(id=self.object.host_id)
         if host_object.id == self.request.user.id:
