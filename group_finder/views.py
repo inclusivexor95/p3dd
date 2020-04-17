@@ -17,7 +17,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from .models import Game, Character
+from .models import Game, Character, Account
 from .forms import CreateGameForm,UpdateGameForm,ChangeUserForm
 
 from django.core.mail import send_mail
@@ -110,15 +110,15 @@ class IndexView(generic.ListView):
 
         return games
 
-    def get_context_data(self, **kwargs):
+    # def get_context_data(self, **kwargs):
 
-        if not self.request.GET:
-            context = super().get_context_data(**kwargs)
-            if self.request.user:
-                    if self.request.user.notification:
-                        context["notification"] = self.request.user.notification
+    #     if not self.request.GET:
+    #         context = super().get_context_data(**kwargs)
+    #         if self.request.user and self.request.user.account:
+    #             if self.request.user.account.notification:
+    #                 context["notification"] = self.request.user.account.notification
 
-        return context
+    #     return context
 
 class DetailView(generic.DetailView):
     model = Game
@@ -210,7 +210,7 @@ def edit_profile(request):
         form = ChangeUserForm(instance=request.user)
         
         args = {'form':form}
-        return render(request,'group_finder/account_form.html',args)
+        return render(request, 'group_finder/account_form.html', args)
 
 
 class ManagementView(LoginRequiredMixin, generic.ListView):
@@ -285,7 +285,7 @@ class GameApply(LoginRequiredMixin, View):
             current_game.applications.append([user_name_string, user_id_string])
             current_game.save()
 
-            host = User.objects.get(id=current_game.host_id)
+            host = Account.objects.get(id=current_game.host_id)
 
             host.notification = current_game.game_text
             host.save()
