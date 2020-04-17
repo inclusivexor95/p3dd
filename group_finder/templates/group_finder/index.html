@@ -55,10 +55,12 @@
         <ul>
         {% for game in latest_game_list %}
         <li>
-            <a href="{% url 'group_finder:detail' game.id %}">{{ game.game_text }}</a>
-            <p>Game: {{ game.game_type }}</p>
-            <p>Campaign: {{ game.campaign_text }}</p>
-            <p>Number of Players: {{ game.num_players }}</p>
+            <div class="center">
+                <a href="{% url 'group_finder:detail' game.id %}">{{ game.game_text }}</a>
+            </div>
+            <p>Game: <span class="blacken">{{ game.game_type }}</span></p>
+            <p>Campaign: <span class="blacken">{{ game.campaign_text }}</span></p>
+            <p>Number of Players: <span class="blacken">{{ game.num_players }}</span></p>
             <!-- <p>Thing: {{ game.thing }}</p> -->
             <!-- <p>Accepting New Players: {{ game.accepting_players }}</p> -->
         </li>

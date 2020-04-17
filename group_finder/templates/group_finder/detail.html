@@ -3,10 +3,10 @@
 <div id="gameDetail">
     <h2>{{ object.game_text }}</h2>
     <div>
-        <p>Game: {{ object.game_type }}</p>
-        <p>Campaign: {{ object.campaign_text }}</p>
-        <p>Number of Players: {{ num_players }}</p>
-        <p>Current Members:
+        <p><span class="greyed">Game:</span> {{ object.game_type }}</p>
+        <p><span class="greyed">Campaign:</span> {{ object.campaign_text }}</p>
+        <p><span class="greyed">Number of Players:</span> {{ num_players }}</p>
+        <p><span class="greyed">Current Members:</span>
             {% for participant in participant_names %}
             {% if participant == last_participant %}
             {{ participant }}
@@ -15,14 +15,15 @@
             {% endif %}        
             {% endfor %}
         </p>
-        <p>
-            Accepting New Players?             
+        <div>
+            <p><span class="greyed">Accepting New Players?</span>             
             {% if object.accepting_players %}
-                Yes
+                &nbsp; <span class="green">Yes</span>
         
             {% else %}
-                No
+                &nbsp; <span class="red">No</span>
             {% endif %}
+            </p>
         
         <div id="charList">
             <h2>Characters in this game: </h2>
@@ -30,10 +31,10 @@
             <ul>
                 {% for character in characters %}
                 <li>
-                    <p>Character Name: {{ character.name_text }}</p>
-                    <p>Player Name: {{ character.player_text }}</p>
-                    <p>Character Race: {{ character.race_text }}</p>
-                    <p>Character Class: {{ character.class_text }}</p>
+                    <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
+                    <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
+                    <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
+                    <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
 
                 </li>
                 
@@ -43,8 +44,10 @@
             
 
         {% if object and object.host_id == request.user.id %}</h2>
-            <div>
+            <div class="edButton">
                 <a href="{% url 'group_finder:game_update' game.id %}">Edit</a>
+            </div>
+            <div class="edButton">
                 <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
             </div>
 
