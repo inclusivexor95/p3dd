@@ -12,11 +12,13 @@
         <table>
             {{form.as_table}}
         </table>
-        {% if object and object.host_id == request.user.id %}</h2>
+
+        {% if object and object.host_id == request.user.id %}
+
         {% if object.game_type == 'Magic the Gathering' %}
         <label for="magic_format">Specify Format</label>
         <select name="format_edition" id="magic_format">
-            <option value=""></option>
+            <option value="Unspecified"></option>
             <option value="Standard">Standard</option>
             <option value="Modern">Modern</option>
             <option value="Commander">Commander</option>
@@ -26,6 +28,31 @@
             <option value="Pauper">Pauper</option>
         </select>
         {% endif %}
+
+        {% if object.game_type == 'Dungeons and Dragons' %}
+        <label for="dnd_format">Specify Edition</label>
+        <select name="format_edition" id="dnd_format">
+            <option value="Unspecified"></option>
+            <option value="5e">5e</option>
+            <option value="4e">4e</option>
+            <option value="3.5e">3.5e</option>
+            <option value="AD&D">AD&D</option>
+        </select>
+        {% endif %}
+
+        {% if object.game_type == 'Yu-Gi-Oh' %}
+        <label for="yugioh_format">Specify Format</label>
+        <select name="format_edition" id="yugioh_format">
+            <option value="Unspecified"></option>
+            <option value="MR5">MR5</option>
+            <option value="MR4">MR4</option>
+            <option value="MR3">MR3</option>
+            <option value="MR2">MR2</option>
+            <option value="MR1">MR1</option>
+            <option value="Legacy">Legacy</option>
+        </select>
+        {% endif %}
+
         <div>
             <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
         </div>

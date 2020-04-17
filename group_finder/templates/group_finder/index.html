@@ -50,6 +50,14 @@
     </form>
 </div>
 
+{% if notification %}
+
+<div>
+    <p>Notification from {{ notification }}</p>
+</div>
+
+{% endif %}
+
 <div id="gameList">
     <h2>Recent Game Listings</h2>
     {% if latest_game_list %}

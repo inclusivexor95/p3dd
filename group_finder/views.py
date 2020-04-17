@@ -22,9 +22,12 @@ from .forms import CreateGameForm,UpdateGameForm
 
 from django.core.mail import send_mail
 
-
 # import django.dispatch
+# from django.core.signals import request_finished
+# from django.dispatch import receiver
 # apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
+
+# from django.template import Context, Template
 
 
 
@@ -70,6 +73,16 @@ class IndexView(generic.ListView):
             games = Game.objects.all().annotate(num_players=(Count('users'))).order_by('-creation_date')
 
         return games
+
+    def get_context_data(self, **kwargs):
+
+        if not self.request.GET:
+            context = super().get_context_data(**kwargs)
+            if self.request.user:
+                    if self.request.user.notification:
+                        context["notification"] = self.request.user.notification
+
+        return context
 
 class DetailView(generic.DetailView):
     model = Game
@@ -246,6 +259,7 @@ def signup(request):
 
 class GameApply(LoginRequiredMixin, View):
 
+
     def get(self, request, *args, **kwargs):
         current_game_id = self.kwargs['pk']
         # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
@@ -259,6 +273,12 @@ class GameApply(LoginRequiredMixin, View):
         if [user_name_string, user_id_string] not in current_game.applications:
             current_game.applications.append([user_name_string, user_id_string])
             current_game.save()
+
+            host = User.objects.get(id=current_game.host_id)
+            host.notification = current_game.game_text
+            host.save()
+
+            # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
         
 
         return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
@@ -324,3 +344,7 @@ class Deny(LoginRequiredMixin, View):
 #         # to get proper validation errors.
 #         return HttpResponse('Make sure all fields are entered and valid.')
 
+
+# @receiver(apply_signal)
+# def apply_popup(sender, **kwargs):
+    

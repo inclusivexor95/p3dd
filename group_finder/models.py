@@ -6,6 +6,14 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    notification = models.CharField(max_length=200)
+
 
 class Game(models.Model):
     users = models.ManyToManyField(User)
@@ -34,3 +42,13 @@ class Character(models.Model):
         return self.name_text
     def get_absolute_url(self):
         return reverse('group_finder:detail', kwargs={'pk': self.game.id})
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

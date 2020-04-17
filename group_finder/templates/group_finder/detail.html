@@ -4,6 +4,16 @@
     <h2>{{ object.game_text }}</h2>
     <div>
         <p><span class="greyed">Game:</span> {{ object.game_type }}</p>
+
+        {% if object.game_type == 'Dungeons and Dragons' %}
+        <p><span class="greyed">Edition:</span> {{ object.format_edition }}</p>
+        {% endif %}
+
+        {% if object.game_type == 'Magic the Gathering' or object.game_type == 'Yu-Gi-Oh' %}
+        <p><span class="greyed">Format:</span> {{ object.format_edition }}</p>
+        {% endif %}
+
+
         <p><span class="greyed">Campaign:</span> {{ object.campaign_text }}</p>
         <p><span class="greyed">Host:</span> {{ host }}</p>
         <p><span class="greyed">Number of Players:</span> {{ num_players }}</p>
