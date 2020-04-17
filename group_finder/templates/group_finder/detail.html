@@ -25,37 +25,39 @@
             {% endif %}
             </p>
         
-        <div id="charList">
-            <h2>Characters in this game: </h2>
-            <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
-            <ul>
-                {% for character in characters %}
-                <li>
-                    <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
-                    <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
-                    <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
-                    <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
+        <div class="joinButtons">
+            <div id="charList">
+                <h2>Characters in this game: </h2>
+                <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
+                <ul>
+                    {% for character in characters %}
+                    <li>
+                        <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
+                        <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
+                        <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
+                        <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
 
-                </li>
+                    </li>
+                    
+                    {% endfor %}
+                </ul>
+            </div>
                 
-                {% endfor %}
-            </ul>
+
+            {% if object and object.host_id == request.user.id %}</h2>
+                <div class="edButton">
+                    <a href="{% url 'group_finder:game_update' game.id %}">Edit</a>
+                </div>
+                <div class="edButton">
+                    <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
+                </div>
+
+            {% elif object and object.host_id != request.user.id %}
+
+                <div class="join">
+                    <a href="{% url 'group_finder:game_apply' game.id %}">Apply to Join This Game</a>
+                </div>
         </div>
-            
-
-        {% if object and object.host_id == request.user.id %}</h2>
-            <div class="edButton">
-                <a href="{% url 'group_finder:game_update' game.id %}">Edit</a>
-            </div>
-            <div class="edButton">
-                <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
-            </div>
-
-        {% elif object and object.host_id != request.user.id %}
-
-            <div>
-                <a href="{% url 'group_finder:game_apply' game.id %}">Apply to Join This Game</a>
-            </div>
 
         {% endif %}
 

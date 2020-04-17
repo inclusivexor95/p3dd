@@ -192,7 +192,7 @@ class CharCreate(LoginRequiredMixin, CreateView):
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/group_finder/account'
-    success_message = "The game post was deleted!"
+    success_message = "Deleted"
     def delete(self, request, *args, **kwargs):
         messages.warning(self.request, self.success_message)
         return super(GameDelete, self).delete(request, *args, **kwargs)

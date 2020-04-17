@@ -13,7 +13,7 @@
             {{form.as_table}}
         </table>
         {% if object and object.host_id == request.user.id %}</h2>
-        <div>
+        <div class="deleteCancel2">
             <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
         </div>
         {% endif %}
