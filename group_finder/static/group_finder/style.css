@@ -237,14 +237,13 @@ input[type = password]{
 
 input[name = searchCampaign]{
     font-size: 20px;
-    position: absolute;
-    left: 450px;
+    
+    display: block;
 }
 
 input[name = searchGame]{
     font-size: 20px;
-    position: absolute;
-    left: 450px;
+    display: block;
 }
 
 /* create a game style */
@@ -299,3 +298,98 @@ input[name = class_text]{
     left: 10px;
 }
 
+/* style game listings */
+
+li p, li a{
+    margin: 10px;
+}
+
+#gameList li{
+    border: 4px outset saddlebrown;
+}
+
+input[name = newPlayers]{
+    height: 20px;
+    width: 20px;
+}
+
+/*Acoount info style*/
+
+.accountInfo{
+    margin: 20px;
+    font-family: Tiamat Regular;
+}
+
+.gamesIn{
+    margin: 20px;
+    font-family: Tiamat Regular;
+}
+/*key vesus value enboldeners*/
+
+.greyed{
+    color: #484848;
+}
+
+.blacken{
+    color: black;
+}
+
+#gameList a{
+    font-size: 30px;
+}
+.center{
+    text-align: center;
+    margin-top: 10px;
+}
+
+/*Game detail style*/
+#gameDetail{
+    font-family: Tiamat Regular;
+}
+
+.edButton{
+    margin: 20px;
+    margin-left:0px;
+    padding: 20px;
+    background-color: black;
+    color: crimson;
+    border-radius: 20%;
+    max-width: 100px;
+    text-align: center;
+}
+
+.edButton:hover{
+    background-color: crimson;
+    color: black;
+    
+}
+
+.green{
+    color: chartreuse;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.red{
+    color: red;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#charList li{
+    border: 4px outset saddlebrown;
+}
+
+#charList button{
+    background-color: black;
+    border: black;
+    color: crimson;
+    padding: 10px;
+}
+
+.alert{
+    margin-bottom:20px;
+    margin-top:20px;
+    font-size: 30px;
+    font-family: Tiamat Regular;
+    color:chartreuse;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}

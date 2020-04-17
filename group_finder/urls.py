@@ -23,5 +23,7 @@ urlpatterns = [
     # edit game (**should change the naming if have time**)
     # path('<int:pk>/edit/', views.EditView.as_view(), name='edit'),
     path('accounts/signup/', views.signup, name='signup'),
-    path('<int:pk>/character/', views.CharCreate.as_view(), name='character_create')
+    path('<int:pk>/character/', views.CharCreate.as_view(), name='character_create'),
+    path('<int:pk>/approve/<user_id_string>', views.Approve.as_view(), name='approve'),
+    path('<int:pk>/deny/<user_id_string>', views.Deny.as_view(), name='deny'),
 ]

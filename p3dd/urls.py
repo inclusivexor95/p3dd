@@ -19,9 +19,9 @@ from group_finder import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view()),
+    # path('', views.IndexView.as_view(), name='index'),
+    path('', views.app_redirect, name='redirect'),
     path('group_finder/', include('group_finder.urls')),
     path('group_finder/accounts/', include('django.contrib.auth.urls'))
-
 
 ]

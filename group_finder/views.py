@@ -27,6 +27,8 @@ from django.core.mail import send_mail
 # apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
 
 
+def app_redirect(self):
+    return redirect(reverse('group_finder:index'))
 
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
@@ -44,11 +46,14 @@ class IndexView(generic.ListView):
             if form.get('searchCampaign', ''):
                 games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
 
-            # do this later
-            # if form.newPlayers == True:
-            # elif form.newPlayers == False:
-            # if form.get('newPlayers', ''):
-            #     games = games.filter(accepting_players__contains)
+            # for game in games:
+            #     game.thing = 'wtf'
+                #  str(form.get('newPlayers')) + 
+            
+            # if form.get('newPlayers') == 'true':
+            #     games = games.filter(accepting_players=True)
+
+
 
             sort = form.get('sortBy', 'recent')
             
@@ -84,8 +89,6 @@ class DetailView(generic.DetailView):
             context["last_participant"] = participant_names[num_players - 1]
         elif num_players == 1:
             context["last_participant"] = participant_names[0]
-
-#need to add host name in detail page
         
         # characters = self.object.character_set.all()
         context["characters"] = self.object.character_set.all()
@@ -109,14 +112,14 @@ class AccountView(LoginRequiredMixin, generic.ListView):
                 game.host += ' (You)'
 
 
-        hosted_games = user_game.filter(host_id=self.request.user.id)
+        for game in user_game:
+            if game.host_id == self.request.user.id:
+                if len(game.applications) > 0:
+                    game.application_username = []
+                    for application in game.applications:
+                        game.application_username.append(f'{application[0]} userid:{application[1]}')
 
-        for game in hosted_games:
-            if len(game.applications) > 0:
-                game.application_username = []
-                for application in game.applications:
-                    game.application_username.append(application[0])
-
+        
 
         return user_game
 
@@ -156,24 +159,6 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
 
         # CURRENT USER/ACCOUNT'S CREATED GAMES
         return hosted_games
-
-# class EditView(LoginRequiredMixin,generic.DetailView):
-#     model = Game
-#     template_name = 'group_finder/edit.html'
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-        
-#         current_participants = self.object.users
-#         participant_names = []
-#         for participant in current_participants.all():
-#             participant_names.append(participant)
-#         context["participant_names"] = participant_names
-#         num_players = len(participant_names) - 1
-#         context["num_players"] = num_players
-#         context["last_participant"] = participant_names[num_players]
-
-#         return context
 
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
@@ -254,23 +239,51 @@ class GameApply(LoginRequiredMixin, View):
 
         user_name_string = str(self.request.user)
 
-        current_game.applications.append([user_name_string, user_id_string])
+        if [user_name_string, user_id_string] not in current_game.applications:
+            current_game.applications.append([user_name_string, user_id_string])
+            current_game.save()
+        
 
-        return reverse('group_finder:detail', kwargs={'pk': current_game_id})
+        return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
+
+class Approve(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.users.add(current_user)
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+        
 
 
 
-# def send_email(request):
-#     subject = request.POST.get('subject', '')
-#     message = request.POST.get('message', '')
-#     from_email = request.POST.get('from_email', '')
-#     if subject and message and from_email:
-#         try:
-#             send_mail(subject, message, from_email, ['admin@example.com'])
-#         except BadHeaderError:
-#             return HttpResponse('Invalid header found.')
-#         return HttpResponseRedirect('/contact/thanks/')
-#     else:
-#         # In reality we'd use a form class
-#         # to get proper validation errors.
-#         return HttpResponse('Make sure all fields are entered and valid.')
+class Deny(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+
