@@ -41,11 +41,14 @@ class IndexView(generic.ListView):
             if form.get('searchCampaign', ''):
                 games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
 
-            # do this later
-            # if form.newPlayers == True:
-            # elif form.newPlayers == False:
-            # if form.get('newPlayers', ''):
-            #     games = games.filter(accepting_players__contains)
+            # for game in games:
+            #     game.thing = 'wtf'
+                #  str(form.get('newPlayers')) + 
+            
+            # if form.get('newPlayers') == 'true':
+            #     games = games.filter(accepting_players=True)
+
+
 
             sort = form.get('sortBy', 'recent')
             

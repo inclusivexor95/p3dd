@@ -32,7 +32,8 @@ class UpdateGameForm(forms.ModelForm):
         fields = [
             'game_text',
             'campaign_text',
-            'game_type'
+            'game_type',
+            'accepting_players'
         ]
         widgets = {
             'game_type': forms.Select(choices=GAME_TYPE_CHOICES)
