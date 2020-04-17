@@ -347,6 +347,26 @@ input[name = newPlayers]{
     font-family: Tiamat Regular;
 }
 
+#gameDetail a{
+    color: crimson;
+    font-family: Tiamat Regular;
+}
+
+#gameDetail a:hover{
+    color: black;
+}
+
+
+
+#gameDetail button:hover{
+    background-color: crimson;
+}
+
+#gameDetail button{
+    display: inline-block;
+}
+
+
 .edButton{
     margin: 20px;
     margin-left:0px;
@@ -356,6 +376,7 @@ input[name = newPlayers]{
     border-radius: 20%;
     max-width: 100px;
     text-align: center;
+    display: inline-block;
 }
 
 .edButton:hover{
@@ -386,10 +407,107 @@ input[name = newPlayers]{
 }
 
 .alert{
-    margin-bottom:20px;
-    margin-top:20px;
+    margin-bottom: 20px;
     font-size: 30px;
     font-family: Tiamat Regular;
     color:chartreuse;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/*Delete Page Style*/
+
+.delete{
+    font-family: Tiamat Regular;
+}
+
+.delete h1{
+    color: black;
+    font-size: 30px;
+}
+
+h4{
+    font-size: 25px;
+}
+
+.delete input{
+    margin-right: 20px;
+}
+
+.deleteCancel{
+    background-color: black;
+    width: 110px;
+    text-align: center;
+    display: inline-block;
+    height: 28px;
+}
+
+.deleteCancel:hover{
+    background-color: crimson;
+}
+
+.deleteCancel a:hover{
+    color: black;
+}
+
+.delete a{
+    color: crimson;
+    font-size: 25px;
+}
+
+.deleteCancel2{
+    background-color: black;
+    width: 80px;
+    text-align: center;
+    margin-right: 20px;
+    font-family: Tiamat Regular;
+    display: inline-block;
+    height: 28px;
+    position: relative;
+    top: -1.5px;
+}
+
+.deleteCancel2 a{
+    color: crimson;
+}
+
+.deleteCancel2:hover{
+    background-color: crimson;
+}
+
+.deleteCancel2 a:hover{
+    color: black;
+}
+.Deleted{
+    color: red;
+    margin: 20px;
+}
+
+.join{
+    background-color: black;
+    width: 304.3px;
+    height: 46px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    left: 325px;
+    bottom: 46px;
+}
+
+.join:hover{
+    background-color: crimson;
+}
+
+.join a{
+    position: relative;
+    top: 10px;
+}
+
+.join a:hover{
+    color: black;
+}
+
+.joinButton{
+    display: flex;
+    flex: wrap;
+    justify-content: row;
 }
