@@ -311,6 +311,9 @@ class Approve(LoginRequiredMixin, View):
         current_game.users.add(current_user)
         current_game.applications.remove([user_name_string, user_id_string])
 
+        self.request.user.account.notification = 'None'
+        self.request.user.account.save()
+
         current_game.save()
 
         return redirect(reverse('group_finder:account'))
@@ -332,6 +335,9 @@ class Deny(LoginRequiredMixin, View):
         user_name_string = str(current_user)
 
         current_game.applications.remove([user_name_string, user_id_string])
+
+        self.request.user.account.notification = 'None'
+        self.request.user.account.save()
 
         current_game.save()
 
