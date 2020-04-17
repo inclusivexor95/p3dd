@@ -31,19 +31,22 @@
         <div class="joinButtons">
             <div id="charList">
                 <h2>Characters in this game: </h2>
-                <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
-                <ul>
+                    {% if object.character_set.get{game=object%}}
+                        <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
+                    {% else %}
+                        <button><a href="{% url 'group_finder:character_update' object.id %}">Edit your character</a></button>
+                    {% endif %}
+                    <ul>
                     {% for character in characters %}
                     <li>
                         <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
                         <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
                         <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
                         <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
-
                     </li>
-                    
                     {% endfor %}
                 </ul>
+
             </div>
                 
                 
