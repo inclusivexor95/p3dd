@@ -111,9 +111,9 @@ class IndexView(generic.ListView):
         return games
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(self, **kwargs)
+        context = super().get_context_data(**kwargs)
+        
         if not self.request.GET:
-            context = super().get_context_data(**kwargs)
             if self.request.user.id: 
                 if self.request.user.account:
                     if self.request.user.account.notification != 'None':
