@@ -18,9 +18,10 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Game, Character
-from .forms import CreateGameForm,UpdateGameForm
+from .forms import CreateGameForm,UpdateGameForm,ChangeUserForm
 
 from django.core.mail import send_mail
+
 
 
 # import django.dispatch
@@ -30,6 +31,43 @@ from django.core.mail import send_mail
 
 def app_redirect(self):
     return redirect(reverse('group_finder:index'))
+
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
+    email = forms.EmailField(label = "Email", required=True)
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'email')
+    
+    def save(self, commit=True):
+        user = super(SignUpForm, self).save(commit=False)
+        user.display_name = self.cleaned_data['first_name']
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user 
+
+#need to build in a more dynamic error message
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user.email and User.objects.filter(email=user.email).exclude(username=user.username).exists():
+                context = {'form': form, 'error_message': 'This email address has already been used'}
+                user.delete()
+                return render(request, 'registration/signup.html', context)
+            login(request, user)
+            return redirect('/group_finder/')
+        else:
+            error_message = "Invalid Signup: either your username has been taken or your passwords did not fulfill the requirement"
+    form = SignUpForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
+
+def about(request):
+    return render(request, 'group_finder/about.html')
 
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
@@ -54,8 +92,6 @@ class IndexView(generic.ListView):
             # if form.get('newPlayers') == 'true':
             #     games = games.filter(accepting_players=True)
 
-
-
             sort = form.get('sortBy', 'recent')
             
             if sort == 'recent':
@@ -66,8 +102,7 @@ class IndexView(generic.ListView):
                 games = games.order_by('num_players')
             elif sort == 'numPlayersDescending':
                 games = games.order_by('-num_players')
-        
-
+    
         else:
 
             games = Game.objects.all().annotate(num_players=(Count('users'))).order_by('-creation_date')
@@ -94,8 +129,6 @@ class DetailView(generic.DetailView):
         # characters = self.object.character_set.all()
         context["characters"] = self.object.character_set.all()
         return context
-    
-    
 
 class AccountView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/account.html'
@@ -112,15 +145,12 @@ class AccountView(LoginRequiredMixin, generic.ListView):
             if self.request.user.id == game.host_id:
                 game.host += ' (You)'
 
-
         for game in user_game:
             if game.host_id == self.request.user.id:
                 if len(game.applications) > 0:
                     game.application_username = []
                     for application in game.applications:
                         game.application_username.append(f'{application[0]} userid:{application[1]}')
-
-        
 
         return user_game
 
@@ -139,8 +169,19 @@ class AccountView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-def about(request):
-    return render(request, 'group_finder/about.html')
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        form = ChangeUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('group_finder:account'))
+    else:
+        form = ChangeUserForm(instance=request.user)
+        
+        args = {'form':form}
+        return render(request,'group_finder/account_form.html',args)
+
 
 class ManagementView(LoginRequiredMixin, generic.ListView):
     template_name = 'group_finder/management.html'
@@ -164,17 +205,16 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
     model = Game
-    # fields = ['game_text', 'campaign_text','game_type']
     
     def form_valid(self,form):
         form.instance.host_id = self.request.user.id
         self.object = form.save()
         self.object.users.add(User.objects.get(id=self.request.user.id))
-        messages.success(self.request,"The game post was created successfully!")
+        messages.success(self.request,"The game post is created successfully!")
         return super().form_valid(form)
 
 class GameUpdate(LoginRequiredMixin, SuccessMessageMixin,UpdateView):
-    success_message = "The game post was updated!"
+    success_message = "The game post is updated!"
     form_class = UpdateGameForm
     model = Game
 
@@ -185,48 +225,18 @@ class CharCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(id=self.kwargs['pk'])
-        messages.success(self.request,"The character was created successfully!")
+        messages.success(self.request,"The character is created successfully!")
         return super().form_valid(form)
 
 
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/group_finder/account'
-    success_message = "The game post was deleted!"
+    success_message = "The game post is deleted!"
     def delete(self, request, *args, **kwargs):
         messages.warning(self.request, self.success_message)
         return super(GameDelete, self).delete(request, *args, **kwargs)
 
-class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=32,label = "Display Name", required=True)
-    email = forms.EmailField(label = "Email", required=True)
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'email')
-    
-    def save(self, commit=True):
-        user = super(SignUpForm, self).save(commit=False)
-        user.display_name = self.cleaned_data['first_name']
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user 
-
-#need to build in a more dynamic error message
-def signup(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            
-            return redirect('/group_finder/')
-        else:
-            error_message = "Invalid sign up - please try again"
-    form = SignUpForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'registration/signup.html', context)
 
 class GameApply(LoginRequiredMixin, View):
 

@@ -6,6 +6,7 @@
     <p><span class="greyed">Display Name:</span> {{ first_name }}</p>
     <p><span class="greyed">Email Address:</span> {{ email }}</p>
     <p><span class="greyed">Date Joined:</span> {{ date_joined }}</p>
+    <a href="{% url 'group_finder:account_update'%}"><button>Edit</button></a>
 
 </div>
 <div class="gamesIn">
