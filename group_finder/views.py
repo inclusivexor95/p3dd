@@ -45,9 +45,9 @@ class IndexView(generic.ListView):
             #     game.thing = 'wtf'
                 #  str(form.get('newPlayers')) + 
             
-            # if form.get('newPlayers') == 'true':
-            #     games = games.filter(accepting_players=True)
-
+            if form.get('newPlayers') == 'on':
+                games = games.filter(accepting_players=True)
+            # print(form.get('newPlayers'))
 
 
             sort = form.get('sortBy', 'recent')
