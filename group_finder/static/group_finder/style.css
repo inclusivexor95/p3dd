@@ -488,9 +488,6 @@ h4{
     height: 46px;
     text-align: center;
     display: inline-block;
-    position: relative;
-    left: 325px;
-    bottom: 46px;
 }
 
 .join:hover{

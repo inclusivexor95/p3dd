@@ -12,7 +12,7 @@ class Game(models.Model):
     game_text = models.CharField(max_length=200, verbose_name=('Game Name'))
     campaign_text = models.CharField(max_length=200, verbose_name=('Campaign Name'))
     game_type = models.CharField(max_length=100, verbose_name=('Game'))
-    # participants = models.ManyToManyField(Account)
+    format_edition = models.CharField(max_length=50, verbose_name=('Format'))
     creation_date = models.DateTimeField(('date created'), default=timezone.now)
     host_id = models.IntegerField()
     accepting_players = models.BooleanField(blank=False, default=True)

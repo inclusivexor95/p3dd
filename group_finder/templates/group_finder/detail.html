@@ -5,6 +5,7 @@
     <div>
         <p><span class="greyed">Game:</span> {{ object.game_type }}</p>
         <p><span class="greyed">Campaign:</span> {{ object.campaign_text }}</p>
+        <p><span class="greyed">Host:</span> {{ host }}</p>
         <p><span class="greyed">Number of Players:</span> {{ num_players }}</p>
         <p><span class="greyed">Current Members:</span>
             {% for participant in participant_names %}
@@ -24,6 +25,8 @@
                 &nbsp; <span class="red">No</span>
             {% endif %}
             </p>
+
+        {% if character and in_game %}
         
         <div class="joinButtons">
             <div id="charList">
@@ -43,6 +46,11 @@
                 </ul>
             </div>
                 
+                {% endfor %}
+            </ul>
+        </div>
+            
+        {% endif %}
 
             {% if object and object.host_id == request.user.id %}</h2>
                 <div class="edButton">
@@ -54,10 +62,26 @@
 
             {% elif object and object.host_id != request.user.id %}
 
-                <div class="join">
-                    <a href="{% url 'group_finder:game_apply' game.id %}">Apply to Join This Game</a>
-                </div>
-        </div>
+            <div>
+                <form action="{% url 'group_finder:game_apply' game.id %}" method="GET">
+                    <input type="submit" value="Apply to Join This Game">
+
+                    {% if character %}
+
+                    <label for="role">Specify Role</label>
+                    <select name="role" id="role">
+                        <option value="any">Any/I don't care</option>
+                        <option value="tank">Tank</option>
+                        <option value="healer">Healer</option>
+                        <option value="melee_dps">Melee DPS</option>
+                        <option value="ranged_dps">Ranged DPS</option>
+                        <option value="utility">Utility</option>
+                    </select>
+
+                    {% endif %}
+
+                </form>
+            </div>
 
         {% endif %}
 

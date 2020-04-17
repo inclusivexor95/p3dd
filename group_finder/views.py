@@ -46,15 +46,12 @@ class IndexView(generic.ListView):
                 games = games.filter(game_text__icontains=(form.get('searchGame', '')))
             if form.get('searchCampaign', ''):
                 games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
-
-            # for game in games:
-            #     game.thing = 'wtf'
-                #  str(form.get('newPlayers')) + 
             
-            # if form.get('newPlayers') == 'true':
-            #     games = games.filter(accepting_players=True)
+            if form.get('newPlayers') == 'on':
+                games = games.filter(accepting_players=True)
 
-
+            if form.get('chooseGame', ''):
+                games = games.filter(game_type=(form.get('chooseGame')))
 
             sort = form.get('sortBy', 'recent')
             
@@ -81,8 +78,27 @@ class DetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         current_participants = self.object.users
         participant_names = []
+        in_game = False
         for participant in current_participants.all():
-            participant_names.append(participant)
+            if participant.id == self.request.user.id:
+                participant_names.append(str(participant) + '(You)')
+                in_game = True
+            else:
+                participant_names.append(str(participant))
+        
+        context["in_game"] = in_game
+
+        host_object = User.objects.get(id=self.object.host_id)
+        if host_object.id == self.request.user.id:
+            context["host"] = str(host_object) + '(You)'
+        else:
+            context["host"] = str(host_object)
+
+        if self.object.game_type == 'Dungeons and Dragons' or self.object.game_type == 'Pathfinder':
+            context["character"] = True
+        else:
+            context["character"] = False
+
         context["participant_names"] = participant_names
         num_players = len(participant_names)
         context["num_players"] = num_players
