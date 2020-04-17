@@ -275,6 +275,7 @@ class GameApply(LoginRequiredMixin, View):
             current_game.save()
 
             host = User.objects.get(id=current_game.host_id)
+            
             host.notification = current_game.game_text
             host.save()
 
