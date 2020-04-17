@@ -58,7 +58,24 @@
         {% elif object and object.host_id != request.user.id %}
 
             <div>
-                <a href="{% url 'group_finder:game_apply' game.id %}">Apply to Join This Game</a>
+                <form action="{% url 'group_finder:game_apply' game.id %}" method="GET">
+                    <input type="submit" value="Apply to Join This Game">
+
+                    {% if character %}
+
+                    <label for="role">Specify Role</label>
+                    <select name="role" id="role">
+                        <option value="any">Any/I don't care</option>
+                        <option value="tank">Tank</option>
+                        <option value="healer">Healer</option>
+                        <option value="melee_dps">Melee DPS</option>
+                        <option value="ranged_dps">Ranged DPS</option>
+                        <option value="utility">Utility</option>
+                    </select>
+
+                    {% endif %}
+
+                </form>
             </div>
 
         {% endif %}
