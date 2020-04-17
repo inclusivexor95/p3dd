@@ -28,6 +28,7 @@
             <div>
                 <label for="chooseGame">Filter By Game:</label>
                 <select class="chooseGame" name="chooseGame" id="chooseGame">
+                    <option value="">All</option>
                     <option value="Dungeons and Dragons">D&D</option>
                     <option value="Magic the Gathering">Magic the Gathering</option>
                     <option value="Board Games">Board Games</option>
@@ -61,7 +62,6 @@
             <p>Game: <span class="blacken">{{ game.game_type }}</span></p>
             <p>Campaign: <span class="blacken">{{ game.campaign_text }}</span></p>
             <p>Number of Players: <span class="blacken">{{ game.num_players }}</span></p>
-            <!-- <p>Thing: {{ game.thing }}</p> -->
             <p>Accepting New Players: {{ game.accepting_players }}</p>
         </li>
         <!-- <li><a href="">Game Link Here</a></li> -->

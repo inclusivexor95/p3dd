@@ -40,15 +40,12 @@ class IndexView(generic.ListView):
                 games = games.filter(game_text__icontains=(form.get('searchGame', '')))
             if form.get('searchCampaign', ''):
                 games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
-
-            # for game in games:
-            #     game.thing = 'wtf'
-                #  str(form.get('newPlayers')) + 
             
             if form.get('newPlayers') == 'on':
                 games = games.filter(accepting_players=True)
-            # print(form.get('newPlayers'))
 
+            if form.get('chooseGame', ''):
+                games = games.filter(game_type=(form.get('chooseGame')))
 
             sort = form.get('sortBy', 'recent')
             
