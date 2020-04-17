@@ -27,6 +27,7 @@ from django.core.mail import send_mail
 # apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
 
 
+
 def app_redirect(self):
     return redirect(reverse('group_finder:index'))
 
@@ -286,4 +287,24 @@ class Deny(LoginRequiredMixin, View):
         current_game.save()
 
         return redirect(reverse('group_finder:account'))
+
+
+        return reverse('group_finder:detail', kwargs={'pk': current_game_id})
+
+
+
+# def send_email(request):
+#     subject = request.POST.get('subject', '')
+#     message = request.POST.get('message', '')
+#     from_email = request.POST.get('from_email', '')
+#     if subject and message and from_email:
+#         try:
+#             send_mail(subject, message, from_email, ['admin@example.com'])
+#         except BadHeaderError:
+#             return HttpResponse('Invalid header found.')
+#         return HttpResponseRedirect('/contact/thanks/')
+#     else:
+#         # In reality we'd use a form class
+#         # to get proper validation errors.
+#         return HttpResponse('Make sure all fields are entered and valid.')
 
