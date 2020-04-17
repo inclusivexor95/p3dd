@@ -28,6 +28,9 @@ from django.core.mail import send_mail
 
 
 
+def app_redirect(self):
+    return redirect(reverse('group_finder:index'))
+
 class IndexView(generic.ListView):
     template_name = 'group_finder/index.html'
     context_object_name = 'latest_game_list'
@@ -44,11 +47,14 @@ class IndexView(generic.ListView):
             if form.get('searchCampaign', ''):
                 games = games.filter(campaign_text__icontains=(form.get('searchCampaign', '')))
 
-            # do this later
-            # if form.newPlayers == True:
-            # elif form.newPlayers == False:
-            # if form.get('newPlayers', ''):
-            #     games = games.filter(accepting_players__contains)
+            # for game in games:
+            #     game.thing = 'wtf'
+                #  str(form.get('newPlayers')) + 
+            
+            # if form.get('newPlayers') == 'true':
+            #     games = games.filter(accepting_players=True)
+
+
 
             sort = form.get('sortBy', 'recent')
             
@@ -109,14 +115,14 @@ class AccountView(LoginRequiredMixin, generic.ListView):
                 game.host += ' (You)'
 
 
-        hosted_games = user_game.filter(host_id=self.request.user.id)
+        for game in user_game:
+            if game.host_id == self.request.user.id:
+                if len(game.applications) > 0:
+                    game.application_username = []
+                    for application in game.applications:
+                        game.application_username.append(f'{application[0]} userid:{application[1]}')
 
-        for game in hosted_games:
-            if len(game.applications) > 0:
-                game.application_username = []
-                for application in game.applications:
-                    game.application_username.append(application[0])
-
+        
 
         return user_game
 
@@ -254,7 +260,54 @@ class GameApply(LoginRequiredMixin, View):
 
         user_name_string = str(self.request.user)
 
-        current_game.applications.append([user_name_string, user_id_string])
+        if [user_name_string, user_id_string] not in current_game.applications:
+            current_game.applications.append([user_name_string, user_id_string])
+            current_game.save()
+        
+
+        return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
+
+class Approve(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.users.add(current_user)
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+        
+
+
+
+class Deny(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        current_game_id = self.kwargs['pk']
+        raw_user_id_string = self.kwargs['user_id_string']
+        user_id_array = raw_user_id_string.split('userid:')
+        user_id_string = user_id_array[1]
+        current_game = Game.objects.get(id = current_game_id)
+
+
+        current_user_id = int(user_id_string)
+        current_user = User.objects.get(id=current_user_id)
+        user_name_string = str(current_user)
+
+        current_game.applications.remove([user_name_string, user_id_string])
+
+        current_game.save()
+
+        return redirect(reverse('group_finder:account'))
+
 
         return reverse('group_finder:detail', kwargs={'pk': current_game_id})
 
@@ -274,3 +327,4 @@ class GameApply(LoginRequiredMixin, View):
 #         # In reality we'd use a form class
 #         # to get proper validation errors.
 #         return HttpResponse('Make sure all fields are entered and valid.')
+
