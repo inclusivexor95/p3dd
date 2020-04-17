@@ -64,7 +64,7 @@
                     <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
                 </div>
 
-            {% elif object and object.host_id != request.user.id %}
+            {% elif object and object.host_id != request.user.id and request.user.id %}
 
             <div>
                 <form action="{% url 'group_finder:game_apply' game.id %}" method="GET">

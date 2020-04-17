@@ -52,8 +52,9 @@
 
 {% if notification %}
 
-<div>
-    <p>Notification from {{ notification }}</p>
+<div id="notification">
+    <button>x</button>
+    <p>Someone wants to join {{ notification }} --- <a href="{% url 'group_finder:account' %}">Go To</a></p>
 </div>
 
 {% endif %}
