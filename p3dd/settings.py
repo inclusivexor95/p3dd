@@ -73,6 +73,7 @@ TEMPLATES = [
 
 TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.request',
+    "django.core.context_processors.static",
 ]
 
 WSGI_APPLICATION = 'p3dd.wsgi.application'
