@@ -12,7 +12,7 @@ from django.dispatch import receiver
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    notification = models.CharField(max_length=200, default='')
+    notification = models.CharField(max_length=200, default='None')
 
 
 class Game(models.Model):
