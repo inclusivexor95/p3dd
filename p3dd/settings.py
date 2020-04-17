@@ -122,3 +122,16 @@ LOGOUT_REDIRECT_URL = '/group_finder/'
 
 import django_heroku
 django_heroku.settings(locals())
+
+
+# EMAIL_HOST = os.environ['EMAIL_HOST']
+# EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = 
+# ACCOUNT_EMAIL_SUBJECT_PREFIX
+
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+# SENDGRID_SANDBOX_MODE_IN_DEBUG=False

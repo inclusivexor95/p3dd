@@ -20,6 +20,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from .models import Game, Character
 from .forms import CreateGameForm,UpdateGameForm
 
+from django.core.mail import send_mail
+
+
+# import django.dispatch
+# apply_signal = django.dispatch.Signal(providing_args=['game_id', 'user_object'])
+
 
 
 def app_redirect(self):
@@ -81,8 +87,6 @@ class DetailView(generic.DetailView):
             context["last_participant"] = participant_names[num_players - 1]
         elif num_players == 1:
             context["last_participant"] = participant_names[0]
-
-#need to add host name in detail page
         
         # characters = self.object.character_set.all()
         context["characters"] = self.object.character_set.all()
@@ -153,24 +157,6 @@ class ManagementView(LoginRequiredMixin, generic.ListView):
 
         # CURRENT USER/ACCOUNT'S CREATED GAMES
         return hosted_games
-
-# class EditView(LoginRequiredMixin,generic.DetailView):
-#     model = Game
-#     template_name = 'group_finder/edit.html'
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-        
-#         current_participants = self.object.users
-#         participant_names = []
-#         for participant in current_participants.all():
-#             participant_names.append(participant)
-#         context["participant_names"] = participant_names
-#         num_players = len(participant_names) - 1
-#         context["num_players"] = num_players
-#         context["last_participant"] = participant_names[num_players]
-
-#         return context
 
 class GameCreate(LoginRequiredMixin, CreateView):
     form_class = CreateGameForm
@@ -298,4 +284,24 @@ class Deny(LoginRequiredMixin, View):
         current_game.save()
 
         return redirect(reverse('group_finder:account'))
+
+
+        return reverse('group_finder:detail', kwargs={'pk': current_game_id})
+
+
+
+# def send_email(request):
+#     subject = request.POST.get('subject', '')
+#     message = request.POST.get('message', '')
+#     from_email = request.POST.get('from_email', '')
+#     if subject and message and from_email:
+#         try:
+#             send_mail(subject, message, from_email, ['admin@example.com'])
+#         except BadHeaderError:
+#             return HttpResponse('Invalid header found.')
+#         return HttpResponseRedirect('/contact/thanks/')
+#     else:
+#         # In reality we'd use a form class
+#         # to get proper validation errors.
+#         return HttpResponse('Make sure all fields are entered and valid.')
 
