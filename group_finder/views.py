@@ -111,9 +111,9 @@ class IndexView(generic.ListView):
         return games
 
     def get_context_data(self, **kwargs):
-
+        context = super().get_context_data(**kwargs)
+        
         if not self.request.GET:
-            context = super().get_context_data(**kwargs)
             if self.request.user.id: 
                 if self.request.user.account:
                     if self.request.user.account.notification != 'None':
@@ -311,6 +311,9 @@ class Approve(LoginRequiredMixin, View):
         current_game.users.add(current_user)
         current_game.applications.remove([user_name_string, user_id_string])
 
+        self.request.user.account.notification = 'None'
+        self.request.user.account.save()
+
         current_game.save()
 
         return redirect(reverse('group_finder:account'))
@@ -332,6 +335,9 @@ class Deny(LoginRequiredMixin, View):
         user_name_string = str(current_user)
 
         current_game.applications.remove([user_name_string, user_id_string])
+
+        self.request.user.account.notification = 'None'
+        self.request.user.account.save()
 
         current_game.save()
 

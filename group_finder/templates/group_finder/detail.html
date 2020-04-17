@@ -4,16 +4,6 @@
     <h2>{{ object.game_text }}</h2>
     <div>
         <p><span class="greyed">Game:</span> {{ object.game_type }}</p>
-
-        {% if object.game_type == 'Dungeons and Dragons' %}
-        <p><span class="greyed">Edition:</span> {{ object.format_edition }}</p>
-        {% endif %}
-
-        {% if object.game_type == 'Magic the Gathering' or object.game_type == 'Yu-Gi-Oh' %}
-        <p><span class="greyed">Format:</span> {{ object.format_edition }}</p>
-        {% endif %}
-
-
         <p><span class="greyed">Campaign:</span> {{ object.campaign_text }}</p>
         <p><span class="greyed">Host:</span> {{ host }}</p>
         <p><span class="greyed">Number of Players:</span> {{ num_players }}</p>
@@ -38,19 +28,25 @@
 
         {% if character and in_game %}
         
-        <div id="charList">
-            <h2>Characters in this game: </h2>
-            <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
-            <ul>
-                {% for character in characters %}
-                <li>
-                    <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
-                    <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
-                    <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
-                    <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
-                </li>
+        <div class="joinButtons">
+            <div id="charList">
+                <h2>Characters in this game: </h2>
+                <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
+                <ul>
+                    {% for character in characters %}
+                    <li>
+                        <p>Character Name:<span class="blacken">{{ character.name_text }}</span></p>
+                        <p>Player Name: <span class="blacken">{{ character.player_text }}</span></p>
+                        <p>Character Race: <span class="blacken">{{ character.race_text }}</span></p>
+                        <p>Character Class: <span class="blacken">{{ character.class_text }}</span></p>
+
+                    </li>
+                    
+                    {% endfor %}
+                </ul>
+            </div>
                 
-                {% endfor %}
+                
             </ul>
         </div>
             
@@ -64,7 +60,7 @@
                     <a href="{% url 'group_finder:game_delete' game.id %}">Delete</a>
                 </div>
 
-            {% elif object and object.host_id != request.user.id and request.user.id %}
+            {% elif object and object.host_id != request.user.id %}
 
             <div>
                 <form action="{% url 'group_finder:game_apply' game.id %}" method="GET">
