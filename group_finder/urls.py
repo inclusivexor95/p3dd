@@ -17,7 +17,7 @@ urlpatterns = [
     path('<int:pk>/delete/', views.GameDelete.as_view(), name='game_delete'),
     path('accounts/signup/', views.signup, name='signup'),
     path('<int:pk>/character/', views.CharCreate.as_view(), name='character_create'),
-    path('<int:pk>/character/update', views.CharUpdate.as_view(), name='character_update'),
+    # path('<int:pk>/character/update', views.CharUpdate.as_view(), name='character_update'),
     path('<int:pk>/approve/<user_id_string>', views.Approve.as_view(), name='approve'),
     path('<int:pk>/deny/<user_id_string>', views.Deny.as_view(), name='deny'),
 ]

@@ -31,11 +31,7 @@
         <div class="joinButtons">
             <div id="charList">
                 <h2>Characters in this game: </h2>
-                    {% if object.character_set.get{game=object}}
-                        <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
-                    {% else %}
-                        <button><a href="{% url 'group_finder:character_update' object.id %}">Edit your character</a></button>
-                    {% endif %}
+                    <button><a href="{% url 'group_finder:character_create' object.id %}">Create a new character for this game</a></button>
                     <ul>
                     {% for character in characters %}
                     <li>

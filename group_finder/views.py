@@ -259,14 +259,14 @@ class CharCreate(LoginRequiredMixin, CreateView):
         messages.success(self.request,"The character is created successfully!")
         return super().form_valid(form)
 
-class CharUpdate(LoginRequiredMixin, UpdateView):
-    model = Character
-    fields = ['name_text', 'player_text', 'race_text', 'class_text']
+# class CharUpdate(LoginRequiredMixin, UpdateView):
+#     model = Character
+#     fields = ['name_text', 'player_text', 'race_text', 'class_text']
 
-    def form_valid(self, form):
-        form.instance.game = Game.objects.get(id=self.kwargs['pk'])
-        messages.success(self.request,"The character is updated successfully!")
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.game = Game.objects.get(id=self.kwargs['pk'])
+#         messages.success(self.request,"The character is updated successfully!")
+#         return super().form_valid(form)
 
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
