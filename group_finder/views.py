@@ -263,6 +263,11 @@ class CharUpdate(LoginRequiredMixin, UpdateView):
     model = Character
     fields = ['name_text', 'player_text', 'race_text', 'class_text']
 
+    def form_valid(self, form):
+        form.instance.game = Game.objects.get(id=self.kwargs['pk'])
+        messages.success(self.request,"The character is updated successfully!")
+        return super().form_valid(form)
+
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/group_finder/account'
@@ -291,8 +296,7 @@ class GameApply(LoginRequiredMixin, View):
             host.notification = current_game.game_text
             host.save()
 
-            # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
-        
+            # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user) 
 
         return redirect(reverse('group_finder:detail', kwargs={'pk': current_game_id}))
 
@@ -318,9 +322,6 @@ class Approve(LoginRequiredMixin, View):
 
         return redirect(reverse('group_finder:account'))
         
-
-
-
 class Deny(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         current_game_id = self.kwargs['pk']
