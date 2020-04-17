@@ -351,6 +351,18 @@ input[name = newPlayers]{
 #gameDetail{
     font-family: Tiamat Regular;
 }
+#gameDetail input{
+    font-family: Tiamat Regular;
+    min-width: 250px;
+    margin-right: 20px;
+}
+
+#gameDetail label{
+    margin-right: 20px;
+}
+#gameDetail select{
+    font-size: 20px;
+}
 
 #gameDetail a{
     color: crimson;

@@ -271,7 +271,6 @@ class GameDelete(LoginRequiredMixin, DeleteView):
         messages.warning(self.request, self.success_message)
         return super(GameDelete, self).delete(request, *args, **kwargs)
 
-
 class GameApply(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         current_game_id = self.kwargs['pk']
