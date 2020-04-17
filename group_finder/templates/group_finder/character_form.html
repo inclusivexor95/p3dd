@@ -2,7 +2,12 @@
 {% block content %}
 
 <div>
-    <h2>Create a New Character</h2>
+    {% if object %}
+        <h2>Edit{{object.name}}</h2>
+    {% else %}
+        <h2>Create a New Character</h2>
+    {% endif %}
+
     <form action="" method="POST">
         {% csrf_token%}
         <table>

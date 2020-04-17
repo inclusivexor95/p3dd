@@ -259,6 +259,9 @@ class CharCreate(LoginRequiredMixin, CreateView):
         messages.success(self.request,"The character is created successfully!")
         return super().form_valid(form)
 
+class CharUpdate(LoginRequiredMixin, UpdateView):
+    model = Character
+    fields = ['name_text', 'player_text', 'race_text', 'class_text']
 
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
@@ -270,8 +273,6 @@ class GameDelete(LoginRequiredMixin, DeleteView):
 
 
 class GameApply(LoginRequiredMixin, View):
-
-
     def get(self, request, *args, **kwargs):
         current_game_id = self.kwargs['pk']
         # apply_signal.send(sender=self.__class__, game_id=current_game_id, user_object=self.request.user)
@@ -347,23 +348,3 @@ class Deny(LoginRequiredMixin, View):
         return reverse('group_finder:detail', kwargs={'pk': current_game_id})
 
 
-
-# def send_email(request):
-#     subject = request.POST.get('subject', '')
-#     message = request.POST.get('message', '')
-#     from_email = request.POST.get('from_email', '')
-#     if subject and message and from_email:
-#         try:
-#             send_mail(subject, message, from_email, ['admin@example.com'])
-#         except BadHeaderError:
-#             return HttpResponse('Invalid header found.')
-#         return HttpResponseRedirect('/contact/thanks/')
-#     else:
-#         # In reality we'd use a form class
-#         # to get proper validation errors.
-#         return HttpResponse('Make sure all fields are entered and valid.')
-
-
-# @receiver(apply_signal)
-# def apply_popup(sender, **kwargs):
-    
