@@ -345,6 +345,5 @@ class Deny(LoginRequiredMixin, View):
         return redirect(reverse('group_finder:account'))
 
 
-        return reverse('group_finder:detail', kwargs={'pk': current_game_id})
 
 

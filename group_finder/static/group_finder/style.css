@@ -105,6 +105,11 @@ nav a:hover, nav a:hover h1 {
     padding: 5% 5% 4% 5%;
 }
 
+div#findGame form {
+    border: 4px outset saddlebrown;
+    background-color: blanchedalmond;
+}
+
 div#gameList {
     margin-top: 4vh;
 }
@@ -145,16 +150,13 @@ input[type = submit] {
     font-family: Tiamat Regular;
     font-size: 25px;
     color:crimson;
-    background-color: black;
-    border: black;
+    background-color: blanchedalmond;
+    border: none;
     max-width: 150px;
 }
 
-input[type = submit]:hover{
+input[type = submit]:hover {
     color:black;
-    background-color: crimson;
-    border: crimson;
-    max-width: 150px;
     cursor: pointer;
 }
 
@@ -168,12 +170,8 @@ div.right{
 label{
     font-family: Tiamat Regular;
     font-size: 25px;
-    
-
 }
-/* p{
-    display: inline-block;
-} */
+
 ul{
     display: inline-block;
     font-size: 20px;
@@ -184,6 +182,7 @@ ul{
     position: relative;
     bottom: 18px
 }
+
 li{
     list-style: none;
     margin: 0px;
@@ -199,6 +198,7 @@ li{
     margin: 10px 0px;
     color:#4c4c4c;
 }
+
 input{
     display: inline-block;
     
@@ -207,6 +207,7 @@ input{
 nav ul{
     position: static;
 }
+
 /* sign-up sheet styles */
 
 input[name = username]{
