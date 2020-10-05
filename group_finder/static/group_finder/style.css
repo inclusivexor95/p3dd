@@ -47,6 +47,7 @@ body {
 
 nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 2%;
@@ -110,6 +111,14 @@ div#findGame form {
     background-color: blanchedalmond;
 }
 
+div.formContainer div {
+    max-width: 100%;
+}
+
+select#sortBy {
+    max-width: 100%;
+}
+
 div#gameList {
     margin-top: 4vh;
 }
@@ -118,6 +127,7 @@ div.formContainer {
     padding: 2%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 #gameList ul, #charList ul {
@@ -571,4 +581,30 @@ h4{
 #notification button:hover {
     cursor: pointer;
     background-color: rgb(50,50,50);
+}
+
+@media (max-width: 1000px) {
+    #findGame div.formContainer div:first-child {
+        margin-bottom: 2%;
+    }
+
+    #findGame label {
+        display: block;
+    }
+}
+
+@media (max-width: 700px) {
+    #gameList ul li {
+        width: 95%;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul {
+        width: 100%;
+        justify-content: space-evenly;
+    }
 }
