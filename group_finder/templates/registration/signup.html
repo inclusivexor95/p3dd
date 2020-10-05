@@ -1,11 +1,13 @@
 {% extends 'base.html'%}
 {% block content %}
+<div id="signupContainer">
 <h2>Sign Up</h2>
 {% if error_message %} {{error_message}} {% endif%}
 
-<form method="post" action="{% url 'group_finder:signup' %}">
+<form method="post" id="signupForm" action="{% url 'group_finder:signup' %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value='signup'>
 </form>
+</div>
 {% endblock %}

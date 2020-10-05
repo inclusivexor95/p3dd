@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
+<div id="loginContainer">
     <h2>Log In</h2>
     <form method='post' action="{% url 'login' %}">
         {% csrf_token %}

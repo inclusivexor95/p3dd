@@ -70,6 +70,11 @@ h2 {
     margin: 0 0 2vh 0;
 }
 
+h3 {
+    font-size: calc(1.5rem + 0.75vw);
+    font-family: Tiamat Regular;
+}
+
 button:hover {
     cursor: pointer;
 }
@@ -96,7 +101,7 @@ nav a {
     color: white;
 }
 
-nav a:hover, nav a:hover h1 {
+nav a:hover {
     color: lightgrey;
 }
 
@@ -160,7 +165,7 @@ input[type = submit] {
     font-family: Tiamat Regular;
     font-size: 25px;
     color:crimson;
-    background-color: blanchedalmond;
+    background-color: transparent;
     border: none;
     max-width: 150px;
 }
@@ -211,33 +216,29 @@ li{
 
 input{
     display: inline-block;
-    
 }
 
 nav ul{
     position: static;
 }
 
-/* sign-up sheet styles */
+/* signup page styles */
 
-input[name = username]{
-    position: absolute;
-    left: 400px;
-} 
-
-input[name = first_name]{
-    position: absolute;
-    left: 400px;
-} 
-
-input[type = email]{
-    position: absolute;
-    left: 400px;
+#signupContainer form, #loginContainer form {
+    border: 4px outset saddlebrown;
+    background-color: blanchedalmond;
+    padding: 0 2% 2% 2%;
 }
 
-input[type = password]{
-    position: absolute;
-    left: 400px;
+#signupForm p {
+    margin-right: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#signupForm p span {
+    width: 100%;
 }
 
 /* home sheet styles */
@@ -312,6 +313,18 @@ input[name = class_text]{
     font-size: 20px;
     position: relative;
     left: 10px;
+}
+
+/* about page styles */
+
+#aboutContainer {
+    padding: 4vh;
+}
+
+#aboutContainer h3 {
+    border: 4px outset saddlebrown;
+    background-color: blanchedalmond;
+    padding: 2%;
 }
 
 /* style game listings */
@@ -583,6 +596,12 @@ h4{
     background-color: rgb(50,50,50);
 }
 
+@media (max-width: 1300px) {
+    #signupForm p {
+        margin-right: 35%;
+    }
+}
+
 @media (max-width: 1000px) {
     #findGame div.formContainer div:first-child {
         margin-bottom: 2%;
@@ -590,6 +609,10 @@ h4{
 
     #findGame label {
         display: block;
+    }
+
+    #signupForm p {
+        margin-right: 20%;
     }
 }
 
@@ -606,5 +629,9 @@ h4{
     nav ul {
         width: 100%;
         justify-content: space-evenly;
+    }
+
+    #signupForm p {
+        margin-right: 0;
     }
 }
